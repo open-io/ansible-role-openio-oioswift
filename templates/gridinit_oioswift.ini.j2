@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+[Service.{{ openio_oioswift_namespace }}-oioswift-{{ openio_oioswift_serviceid }}]
+command=/usr/bin/swift-proxy-server  /etc/oio/sds/{{ openio_oioswift_namespace }}/oioswift-{{ openio_oioswift_serviceid }}/proxy-server.conf
+enabled=true
+start_at_boot=true
+on_die=respawn
+group={{ openio_oioswift_namespace }},oioswift,{{ openio_oioswift_serviceid }}
+uid=openio
+gid=openio
+env.PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin

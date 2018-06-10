@@ -1,0 +1,11 @@
+# roles/oioswift/vars/RedHat.yml
+# Distribution-specific variables for RHEL, CentOS, ...
+---
+oioswift_packages:
+  - "{{'openio-sds-server' if openio_oioswift_sds_version == 'latest'\
+    else 'openio-sds-server-' ~ openio_oioswift_sds_version}}"
+  - "{{ 'openio-sds-swift' if openio_oioswift_version == 'latest' else 'openio-sds-swift-' ~ openio_oioswift_version }}"
+  - "{{ 'openio-sds-swift-plugin-swift3' \
+    if openio_oioswift_swift3_version == 'latest' \
+    else 'openio-sds-swift-plugin-swift3-' ~ openio_oioswift_swift3_version }}"
+...

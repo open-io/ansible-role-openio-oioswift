@@ -1,0 +1,74 @@
+# roles/oioswift/tasks/main.yml
+---
+- name: "Include {{ ansible_distribution }} variables"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: install
+
+- name: Create the 'openio' group
+  group:
+    name: openio
+    gid: "{{ openio_group_openio_gid | default('220')}}"
+  tags: install
+
+- name: Create the 'openio' user
+  user:
+    name: openio
+    comment: "openio account"
+    uid: "{{ openio_user_openio_uid | default('120')}}"
+    group: openio
+  tags: install
+
+- name: "Include {{ ansible_distribution }} tasks"
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: install
+
+- name: Test directories presence
+  stat:
+    path: "{{ item }}"
+  register: _dir
+  with_items:
+    - "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
+    - "{{ openio_oioswift_sysconfig_dir }}/oioswift-{{ openio_oioswift_serviceid }}"
+    - "/var/log/oio/sds/{{ openio_oioswift_namespace }}/oioswift-{{ openio_oioswift_serviceid }}"
+
+- name: Ensure directories exists
+  file:
+    path: "{{ item.item }}"
+    state: directory
+    owner: openio
+    group: openio
+    mode: 0755
+    recurse: true
+  with_items: "{{ _dir.results }}"
+  when: not item.stat.exists
+  tags: install
+
+- name: Generate configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: openio
+    group: openio
+    mode: 0644
+  with_items:
+    - src: "proxy-server.conf.j2"
+      dest: "{{ openio_oioswift_sysconfig_dir }}/\
+        oioswift-{{ openio_oioswift_serviceid }}/proxy-server.conf"
+    - src: "gridinit_oioswift.ini.j2"
+      dest: "{{ openio_oioswift_gridinit_dir }}/{{ openio_ecd_gridinit_file_prefix }}\
+        oioswift-{{ openio_oioswift_serviceid }}.ini"
+  register: _oioswift_conf
+
+- name: restart oioswift
+  shell: |
+    gridinit_cmd reload
+    gridinit_cmd restart  {{openio_oioswift_namespace}}-oioswift-{{openio_oioswift_serviceid}}
+  when: _oioswift_conf.changed
+  tags: configure
+...

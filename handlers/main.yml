@@ -1,0 +1,8 @@
+# roles/oioswift/handlers/main.yml
+---
+#- name: restart oioswift
+#  service:
+#    name: "{{ oioswift_service }}"
+#    state: restarted
+#
+...

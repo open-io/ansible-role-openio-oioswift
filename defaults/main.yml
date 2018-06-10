@@ -1,0 +1,152 @@
+# roles/oioswift/defaults/main.yml
+---
+openio_oioswift_namespace: "OPENIO"
+openio_oioswift_serviceid: "0"
+
+openio_oioswift_version: "latest"
+openio_oioswift_swift3_version: "latest"
+openio_oioswift_sds_version: "latest"
+
+openio_oioswift_gridinit_dir: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
+openio_oioswift_gridinit_file_prefix: ""
+
+openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
+openio_oioswift_bind_address:
+  "{{ hostvars[inventory_hostname]['ansible_' + openio_oioswift_bind_interface]['ipv4']['address'] }}"
+openio_oioswift_bind_port: 6007
+
+openio_oioswift_workers:
+  "{{ ((( ansible_processor_vcpus | int ) | ternary (ansible_processor_vcpus, 1) | int ) * 3 /  4) | int }}"
+
+openio_oioswift_log_level: INFO
+
+# SDS
+openio_oioswift_sds_proxy_url: "http://{{ openio_oioswift_bind_address }}:6006"
+openio_oioswift_sds_default_account: default
+openio_oioswift_sds_connection_timeout: 5
+openio_oioswift_sds_read_timeout: 35
+openio_oioswift_sds_write_timeout: 35
+openio_oioswift_sds_pool_connections: 50
+openio_oioswift_sds_pool_maxsize: 50
+openio_oioswift_sds_max_retries: 0
+openio_oioswift_sds_oio_storage_policies: []
+  #- SINGLE
+  #- THREECOPIES
+  #- ECISALC75D1
+openio_oioswift_sds_auto_storage_policies: []
+  #- EC123
+  #- THREECOPIES:0
+  #- ECISALC75D1:262144
+
+openio_oioswift_pipeline: "{{ pipeline_keystone }}"
+
+openio_oioswift_filter_catch_errors:
+  use: "egg:swift#catch_errors"
+
+openio_oioswift_filter_gatekeeper:
+  use: "egg:swift#gatekeeper"
+
+openio_oioswift_filter_healthcheck:
+  use: "egg:swift#healthcheck"
+
+openio_oioswift_filter_proxy_logging:
+  use: "egg:swift#proxy_logging"
+  access_log_headers: false
+  access_log_headers_only: ""
+
+openio_oioswift_filter_cache:
+  use: "egg:swift#memcache"
+  memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
+  memcache_max_connections: 50
+
+openio_oioswift_filter_bulk:
+  use: "egg:swift#bulk"
+
+openio_oioswift_filter_tempurl:
+  use: "egg:swift#tempurl"
+
+openio_oioswift_filter_authtoken:
+  paste.filter_factory: keystonemiddleware.auth_token:filter_factory
+  auth_type: password
+  auth_url: "http://{{ openio_oioswift_bind_address }}:35357"
+  www_authenticate_uri: "http://{{ openio_oioswift_bind_address }}:5000"
+  insecure: "True"
+  region_name: RegionOne
+  project_domain_id: default
+  user_domain_id: default
+  project_name: service
+  username: swift
+  password: SWIFT_PASS
+  delay_auth_decision: "True"
+  include_service_catalog: "False"
+  memcached_servers: "{{ openio_oioswift_bind_address }}:6019"
+  cache: swift.cache
+  token_cache_time: 300
+  revocation_cache_time: 60
+  memcache_security_strategy: ENCRYPT
+  memcache_secret_key: memcache_secret_key
+
+openio_oioswift_filter_swift3:
+  use: "egg:swift3#swift3"
+  force_swift_request_proxy_log: true
+  s3_acl: true
+  location: RegionOne
+
+openio_oioswift_filter_tempauth:
+  use: "egg:swift#tempauth"
+  user_demo_demo: "DEMO_PASS .admin"
+
+openio_oioswift_filter_s3token:
+  use: "egg:swift3#s3token"
+  delay_auth_decision: "True"
+  auth_uri: "http://{{ openio_oioswift_bind_address }}:35357/"
+
+openio_oioswift_filter_keystoneauth:
+  use: "egg:swift#keystoneauth"
+  operator_roles: admin,swiftoperator,_member_
+
+openio_oioswift_filter_copy:
+  #use: "egg:oioswift#copy"
+  use: "egg:swift#copy"
+  object_post_as_copy: false
+
+openio_oioswift_filter_container_quotas:
+  use: "egg:swift#container_quotas"
+
+openio_oioswift_filter_account_quotas:
+  use: "egg:swift#account_quotas"
+
+openio_oioswift_filter_slo:
+  use: "egg:swift#slo"
+
+openio_oioswift_filter_dlo:
+  use: "egg:swift#dlo"
+
+openio_oioswift_filter_versioned_writes:
+  use: "egg:swift#versioned_writes"
+  allow_versioned_writes: true
+
+openio_oioswift_app_proxy_server:
+  use: "egg:oioswift#main"
+  bind_ip: 0.0.0.0
+  object_post_as_copy: false
+  allow_account_management: true
+  account_autocreate: true
+  log_name: "OIO,{{ openio_oioswift_namespace }},oioswift,{{ openio_oioswift_serviceid }}"
+  #verb_acl = PUT,POST,PATCH,DELETE:127.,10.100.20.44
+
+openio_oioswift_filter_ratelimit:
+  use: "egg:swift#ratelimit"
+
+openio_oioswift_filter_hashedcontainer:
+  use: "egg:oioswift#hashedcontainer"
+
+openio_oioswift_filter_container_hierarchy:
+  use: "egg:oioswift#container_hierarchy"
+  log_level: INFO
+  account_first: true
+  strip_v1: true
+  swift3_compat: true
+  create_dir_placeholders: true
+  recursive_placeholders: true
+...

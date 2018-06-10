@@ -1,0 +1,11 @@
+# .gitignore
+
+# Backup files (e.g. Vim, Gedit, etc.)
+*~
+
+# Compiled Python
+*.pyc
+
+# Test directories. These are Git worktrees to separate test branches
+*tests/
+

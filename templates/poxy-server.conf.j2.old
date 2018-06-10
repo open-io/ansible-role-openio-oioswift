@@ -1,0 +1,145 @@
+# {{ ansible_managed }}
+[DEFAULT]
+use_stderr = False
+bind_port = {{ openio_oioswift_bind_port }}
+workers = {{ openio_oioswift_workers }}
+user = openio
+log_facility = /dev/log
+log_level = {{ openio_oioswift_log_level }}
+eventlet_debug = false
+
+sds_namespace = {{ openio_oioswift_namespace }}
+sds_proxy_url = {{ openio_oioswift_sds_proxy_url }}
+sds_default_account = {{ openio_oioswift_sds_default_account }}
+
+sds_connection_timeout = {{ openio_oioswift_sds_connection_timeout }}
+sds_read_timeout = {{ openio_oioswift_sds_read_timeout }}
+sds_write_timeout = {{ openio_oioswift_sds_write_timeout }}
+
+sds_pool_connections = {{ openio_oioswift_sds_pool_connections }}
+sds_pool_maxsize = {{ openio_oioswift_sds_pool_maxsize }}
+sds_max_retries = {{ openio_oioswift_sds_max_retries }}
+
+{% if openio_oioswift_sds_oio_storage_policies %}oio_storage_policies={{ openio_oioswift_sds_oio_storage_policies | join(',') }}{% endif %}
+{% if openio_oioswift_sds_auto_storage_policies %}auto_storage_policies={{ openio_oioswift_sds_auto_storage_policies | join(',') }}{% endif %}
+
+[pipeline:main]
+pipeline = {{ openio_oioswift_pipeline | join(' ') }}
+
+[app:proxy-server]
+use = egg:oioswift#main
+bind_ip = {{ openio_oioswift_bind_address }}
+object_post_as_copy = false
+allow_account_management = true
+account_autocreate = true
+log_name = OIO,{{ openio_oioswift_namespace }},oioswift,{{ openio_oioswift_serviceid }}
+
+[filter:bulk]
+use = egg:swift#bulk
+
+[filter:slo]
+use = egg:swift#slo
+
+[filter:dlo]
+use = egg:swift#dlo
+
+[filter:account-quotas]
+use = egg:swift#account_quotas
+
+[filter:container-quotas]
+use = egg:swift#container_quotas
+
+[filter:versioned_writes]
+use = egg:swift#versioned_write
+allow_versioned_writes = true
+
+[filter:crossdomain]
+use = egg:swift#crossdomain
+
+
+[filter:authtoken]
+paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+auth_type = password
+auth_url = {{ openio_oioswift_keystone_admin_endpoint }}
+www_authenticate_uri = {{ openio_oioswift_keystone_public_endpoint }}
+insecure = True
+region_name = {{ openio_oioswift_keystone_region_name }}
+project_domain_id = {{ openio_oioswift_keystone_project_domain_id }}
+user_domain_id = {{ openio_oioswift_keystone_user_domain_id }}
+project_name = {{ {{ openio_oioswift_keystone_project_name }}
+username = {{ openio_oioswift_keystone_username }}
+password = {{ openio_oioswift_keystone_user_password }}
+delay_auth_decision = True
+include_service_catalog = False
+memcached_servers = {{ openio_oioswift_keystone_memcached_servers }}
+cache = swift.cache
+token_cache_time = 300
+revocation_cache_time = 60
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = memcache_secret_key
+
+[filter:keystoneauth]
+use = egg:swift#keystoneauth
+operator_roles = admin,swiftoperator,_member_
+{% if openio_oioswift_keystone_reseller_prefix %}reseller_prefix = {{ openio_oioswift_keystone_reseller_prefix }}{% endif %}
+
+[filter:gatekeeper]
+use = egg:swift#gatekeeper
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+access_log_headers = false
+access_log_headers_only =
+
+[filter:tempurl]
+use = egg:swift#tempurl
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:cache]
+use = egg:swift#memcache
+memcache_servers = {{ openio_oioswift_memcached_servers }}
+memcache_max_connections = 500
+
+[filter:swift3]
+use = egg:swift3#swift3
+force_swift_request_proxy_log = true
+location = {{ openio_oioswift_swift3_region_name }}
+{% if openio_oioswift_swift3_storage_domain %}storage_domain = {{ openio_oioswift_swift3_storage_domain }}{% endif %}
+{% if openio_oioswift_swift3_s3_acl %}s3_acl = true{% endif %}
+{% if openio_oioswift_swift3_check_bucket_owner %}check_bucket_owner = true{% endif %}
+{% if openio_oioswift_swift3_bucket_db_enabled %}bucket_db_enabled = true{% endif %}
+{% if openio_oioswift_swift3_bucket_db_sentinel_hosts %}bucket_db_sentinel_hosts = {{ openio_oioswift_swift3_bucket_db_sentinel_hosts }}{% endif %}
+{% if openio_oioswift_swift3_bucket_db_master_name %}bucket_db_master_name = {{ openio_oioswift_swift3_bucket_db_master_name }}{% endif %}
+{% if openio_oioswift_swift3_bucket_db_prefix %}bucket_db_prefix = {{ openio_oioswift_swift3_bucket_db_prefix }}{% endif %}
+
+[filter:copy]
+use = egg:oioswift#copy
+object_post_as_copy = false
+
+[filter:s3token]
+use = egg:swift3#s3token
+auth_uri = {{ openio_oioswift_keystone_admin_endpoint }}
+
+[filter:container_hierarchy]
+# Spawn containers for each subdirectory, instead of emulating
+# directories with '/' in object names. This middleware must be
+# placed after authentication in the pipeline.
+
+use = egg:oioswift#container_hierarchy
+#log_level = INFO
+
+# These options have the same meaning as in hashedcontainer.
+# When using swift3, all 3 must be true.
+account_first = true
+strip_v1 = true
+swift3_compat = true
+
+# Create empty objects to mark subdirectories. This enables
+# recursive object listings.
+create_dir_placeholders = true
+recursive_placeholders = true
