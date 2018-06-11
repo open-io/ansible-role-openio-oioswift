@@ -61,7 +61,7 @@
       dest: "{{ openio_oioswift_sysconfig_dir }}/\
         oioswift-{{ openio_oioswift_serviceid }}/proxy-server.conf"
     - src: "gridinit_oioswift.ini.j2"
-      dest: "{{ openio_oioswift_gridinit_dir }}/{{ openio_ecd_gridinit_file_prefix }}\
+      dest: "{{ openio_oioswift_gridinit_dir }}/{{ openio_oioswift_gridinit_file_prefix }}\
         oioswift-{{ openio_oioswift_serviceid }}.ini"
   register: _oioswift_conf
 
