@@ -28,6 +28,12 @@ before_install:
   # Lint
   - sudo pip install --upgrade pip
   - sudo pip install ansible-lint yamllint
+  # sds
+  - export IPVAGRANT=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+  - docker run -d --net=host -e OPENIO_IPADDR=${IPVAGRANT} openio/sds
+  - export SDS_DOCKER_ID=$(docker ps -aq)
+  - while ! docker exec -ti ${SDS_DOCKER_ID}
+    openio container create travis_container --oio-ns OPENIO --oio-account travis_project; do sleep 1; done
 
 script:
   # Lint
