@@ -149,4 +149,18 @@ openio_oioswift_filter_container_hierarchy:
   swift3_compat: true
   create_dir_placeholders: true
   recursive_placeholders: true
+
+openio_oioswift_filter_regexcontainer:
+  use: "egg:oioswift#regexcontainer"
+  account_first: true
+  strip_v1: true
+  swift3_compat: true
+  stop_at_first_match: true
+  pattern1: ^/?([^/]+)
+
+openio_oioswift_filter_staticweb:
+  use: "egg:swift#staticweb"
+
+openio_oioswift_filter_crossdomain:
+  use: "egg:swift#crossdomain"
 ...

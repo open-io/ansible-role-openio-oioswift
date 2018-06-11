@@ -180,3 +180,24 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
+
+{% if 'regexcontainer' in openio_oioswift_pipeline %}
+[filter:regexcontainer]
+{% for k, v in openio_oioswift_filter_container_regexcontainer.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
+
+{% if 'staticweb' in openio_oioswift_pipeline %}
+[filter:staticweb]
+{% for k, v in openio_oioswift_filter_container_staticweb.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
+
+{% if 'crossdomain' in openio_oioswift_pipeline %}
+[filter:crossdomain]
+{% for k, v in openio_oioswift_filter_container_crossdomain.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
