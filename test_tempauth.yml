@@ -14,6 +14,9 @@
     - role: role_under_test
       openio_oioswift_namespace: "{{ NS }}"
       openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
+      openio_oioswift_sds_proxy_url: "http://{{ lookup('env','IPVAGRANT') }}:6006"
+      openio_oioswift_workers: 1
+      openio_oioswift_sds_proxy_namespace: OPENIO
       openio_oioswift_pipeline: "{{ pipeline_tempauth }}"
       openio_oioswift_filter_tempauth:
         use: "egg:swift#tempauth"
@@ -22,6 +25,4 @@
         use: "egg:swift#memcache"
         memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
         memcache_max_connections: 50
-
-
 ...
