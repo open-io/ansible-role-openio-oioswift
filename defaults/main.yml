@@ -40,6 +40,7 @@ openio_oioswift_sds_auto_storage_policies: []
   #- ECISALC75D1:262144
 
 openio_oioswift_pipeline: "{{ pipeline_keystone }}"
+openio_oioswift_inventory_groupname: ""
 
 openio_oioswift_filter_catch_errors:
   use: "egg:swift#catch_errors"
@@ -57,7 +58,12 @@ openio_oioswift_filter_proxy_logging:
 
 openio_oioswift_filter_cache:
   use: "egg:swift#memcache"
-  memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
+  memcache_servers: "{% if openio_oioswift_inventory_groupname %}\
+    {{ groups[openio_oioswift_inventory_groupname] |\
+    map('extract', hostvars, ['ansible_' + openio_oioswift_bind_interface]['ipv4']['address']) | join(':6019,') }}:6019\
+    {% else %}\
+    {{ openio_oioswift_bind_address }}:6019\
+    {% endif %}"
   memcache_max_connections: 50
 
 openio_oioswift_filter_bulk:
