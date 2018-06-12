@@ -24,6 +24,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_filter_*` | `dict` | Options of most used middleware |
 | `openio_oioswift_gridinit_dir` | `/etc/gridinit.d/{{ openio_oioswift_namespace }}` | Path to copy the gridinit conf |
 | `openio_oioswift_gridinit_file_prefix` | `""` | Maybe set it to `{{ openio_oioswift_namespace }}-` for legacy gridinit's style |
+| `openio_oioswift_inventory_groupname` | `""` | Set your inventory groupname to auto feed memcached server on port `6019` |
 | `openio_oioswift_log_level` | `INFO` | Log level |
 | `openio_oioswift_namespace` | `OPENIO` | OpenIO namespace for this proxy swift |
 | `openio_oioswift_pipeline` | ` pipeline_keystone` | `list` of middleware. Some preconfigured are available in `vars/main.yml` |
@@ -180,6 +181,10 @@ openio_oioswift_pipeline:
   - bulk
   - tempurl
 ```
+
+### Cache Filter
+
+If you set your inventory groupname in `openio_oioswift_inventory_groupname`, the `memcache_servers` option will be feed by the `openio_oioswift_bind_interface` and the default port (6019) of each servers
 
 ## Contributing
 
