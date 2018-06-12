@@ -64,7 +64,6 @@ openio_oioswift_filter_cache:
     {% else %}\
     {{ openio_oioswift_bind_address }}:6019\
     {% endif %}"
- 
   memcache_max_connections: 50
 
 openio_oioswift_filter_bulk:
