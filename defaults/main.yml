@@ -105,8 +105,8 @@ openio_oioswift_filter_tempauth:
 
 openio_oioswift_filter_s3token:
   use: "egg:swift3#s3token"
-  delay_auth_decision: "True"
-  auth_uri: "http://{{ openio_oioswift_bind_address }}:35357/"
+  #delay_auth_decision: "True"
+  auth_uri: "http://{{ openio_oioswift_bind_address }}:35357"
 
 openio_oioswift_filter_keystoneauth:
   use: "egg:swift#keystoneauth"
