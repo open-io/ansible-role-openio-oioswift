@@ -16,7 +16,6 @@ pipeline_keystone:
   - bulk
   - tempurl
   - proxy-logging
-  - ratelimit
   - authtoken
   - swift3
   - s3token
