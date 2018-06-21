@@ -64,7 +64,7 @@ openio_oioswift_filter_cache:
     {% else %}\
     {{ openio_oioswift_bind_address }}:6019\
     {% endif %}"
-  memcache_max_connections: 50
+  memcache_max_connections: 500
 
 openio_oioswift_filter_bulk:
   use: "egg:swift#bulk"
