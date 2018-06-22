@@ -60,9 +60,9 @@
     - src: "proxy-server.conf.j2"
       dest: "{{ openio_oioswift_sysconfig_dir }}/\
         oioswift-{{ openio_oioswift_serviceid }}/proxy-server.conf"
-    - src: "gridinit_oioswift.ini.j2"
+    - src: "gridinit_oioswift.conf.j2"
       dest: "{{ openio_oioswift_gridinit_dir }}/{{ openio_oioswift_gridinit_file_prefix }}\
-        oioswift-{{ openio_oioswift_serviceid }}.ini"
+        oioswift-{{ openio_oioswift_serviceid }}.conf"
   register: _oioswift_conf
 
 - name: restart oioswift
