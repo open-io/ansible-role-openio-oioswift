@@ -9,16 +9,15 @@
     - role: gridinit
       openio_gridinit_namespace: "{{ NS }}"
       openio_gridinit_per_ns: true
-      openio_gridinit_namespace: "TRAVIS"
-      
+
     - role: memcached
       openio_memcached_namespace: "{{ NS }}"
-      
+
     - role: memcached
       openio_memcached_namespace: "{{ NS }}"
       openio_memcached_serviceid: 1
       openio_memcached_bind_port: 6119
-      
+
     - role: keystone
       openio_keystone_namespace: "{{ NS }}"
       # change port for test
