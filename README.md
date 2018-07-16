@@ -88,7 +88,7 @@ No dependencies.
           password: ADMIN_PASS
           project: admin
           role: admin
-          regionid: RegionOne
+          regionid: "us-east-1"
           adminurl: "http://{{ VIP.address }}:35357"
           publicurl: "http://{{ VIP.address }}:5000"
           internalurl: "http://{{ VIP.address }}:5000"
@@ -114,7 +114,7 @@ No dependencies.
         auth_url: "http://{{ VIP.address }}:35357"
         www_authenticate_uri: "http://{{ VIP.address }}:5000"
         insecure: "True"
-        region_name: RegionOne
+        region_name: "us-east-1"
         project_domain_id: default
         user_domain_id: default
         project_name: service

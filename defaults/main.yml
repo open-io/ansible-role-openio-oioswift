@@ -71,7 +71,7 @@ openio_oioswift_filter_bulk:
 
 openio_oioswift_filter_tempurl:
   use: "egg:swift#tempurl"
-  
+
 openio_keystone_swift_password: SWIFT_PASS
 openio_oioswift_filter_authtoken:
   paste.filter_factory: keystonemiddleware.auth_token:filter_factory
@@ -79,7 +79,7 @@ openio_oioswift_filter_authtoken:
   auth_url: "http://{{ openio_oioswift_bind_address }}:35357"
   www_authenticate_uri: "http://{{ openio_oioswift_bind_address }}:5000"
   insecure: "True"
-  region_name: RegionOne
+  region_name: "us-east-1"
   project_domain_id: default
   user_domain_id: default
   project_name: service
@@ -98,7 +98,7 @@ openio_oioswift_filter_swift3:
   use: "egg:swift3#swift3"
   force_swift_request_proxy_log: true
   s3_acl: true
-  location: RegionOne
+  location: "us-east-1"
 
 openio_oioswift_filter_tempauth:
   use: "egg:swift#tempauth"
