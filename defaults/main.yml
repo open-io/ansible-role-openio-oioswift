@@ -98,6 +98,7 @@ openio_oioswift_filter_swift3:
   use: "egg:swift3#swift3"
   force_swift_request_proxy_log: true
   s3_acl: true
+  check_bucket_owner: true
   location: "us-east-1"
 
 openio_oioswift_filter_tempauth:
