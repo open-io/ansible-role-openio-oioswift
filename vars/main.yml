@@ -49,4 +49,20 @@ pipeline_tempauth:
   - versioned_writes
   - proxy-logging
   - proxy-server
+
+pipeline_without_auth:
+  - catch_errors
+  - gatekeeper
+  - healthcheck
+  - proxy-logging
+  - cache
+  - bulk
+  - tempurl
+  - swift3
+  - copy
+  - slo
+  - dlo
+  - versioned_writes
+  - proxy-logging
+  - proxy-server
 ...
