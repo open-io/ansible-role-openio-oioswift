@@ -28,6 +28,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_log_level` | `INFO` | Log level |
 | `openio_oioswift_namespace` | `OPENIO` | OpenIO namespace for this proxy swift |
 | `openio_oioswift_pipeline` | ` pipeline_keystone` | `list` of middleware. Some preconfigured are available in `vars/main.yml` |
+| `openio_oioswift_proxy_bind_address` | `openio_oioswift_bind_address` | Listen address for the proxy swift ('0.0.0.0' is possible) |
 | `openio_oioswift_sds_auto_storage_policies` | `[]` | Setup default policie and limits. Example: `['EC','THREECOPIES:1','EC:262144']` defines `Erasur Code`as default policy and THREECOPIES from 1 byte to `262143`|
 | `openio_oioswift_sds_connection_timeout` | `5` | Timeout for SDS requests |
 | `openio_oioswift_sds_default_account` | `default` | Default Account/Project in OpenIO SDS |
