@@ -4,6 +4,7 @@
 oioswift_packages:
   - "{{ 'openio-sds' if openio_oioswift_sds_version == 'latest' else 'openio-sds=' ~ openio_oioswift_sds_version }}"
   - "{{ 'openio-sds-swift' if openio_oioswift_version == 'latest' else 'openio-sds-swift=' ~ openio_oioswift_version }}"
+  - python-keystonemiddleware
   - "{{ 'openio-sds-swift-plugin-s3' \
     if openio_oioswift_swift3_version == 'latest' \
     else 'openio-sds-swift-plugin-s3=' ~ openio_oioswift_swift3_version }}"
