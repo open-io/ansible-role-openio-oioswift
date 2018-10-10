@@ -2,6 +2,7 @@
 ---
 openio_oioswift_namespace: "OPENIO"
 openio_oioswift_serviceid: "0"
+openio_oioswift_provision_only: false
 
 openio_oioswift_version: "latest"
 openio_oioswift_swift3_version: "latest"
