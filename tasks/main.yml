@@ -69,6 +69,8 @@
   shell: |
     gridinit_cmd reload
     gridinit_cmd restart  {{openio_oioswift_namespace}}-oioswift-{{openio_oioswift_serviceid}}
-  when: _oioswift_conf.changed
   tags: configure
+  when:
+    - _oioswift_conf.changed
+    - not openio_oioswift_provision_only
 ...

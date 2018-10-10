@@ -45,6 +45,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_swift3_version` | `latest` | Version of the `openio-sds-swift-plugin-s3` package |
 | `openio_oioswift_version` | `latest` | Version of the `openio-sds-swift` package |
 | `openio_oioswift_workers` | `3 ansible_processor_vcpus / 4` | Number of threads to process requests |
+| `openio_oioswift_provision_only` | `false` | Provision only without restarting services |
 
 ## Dependencies
 
@@ -70,7 +71,7 @@ No dependencies.
         user_me_myproject: "MY_PASS .admin"
 ```
 
-### Keystone 
+### Keystone
 ```yaml
 - hosts: all
   become: true
@@ -142,7 +143,7 @@ node1 ansible_host=192.168.1.173
 ```
 ## Pipeline / Middleware
 
-Middleware available in the template 
+Middleware available in the template
 
 * catch_errors
 * gatekeeper
