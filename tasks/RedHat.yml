@@ -6,10 +6,12 @@
   with_items: "{{ oioswift_packages }}"
   loop_control:
     loop_var: pkg
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Install package for Erasure Code
   package:
     name: libisal
     state: present
   when: openio_oioswift_sds_auto_storage_policies | map('lower') | select('match', 'ecisal') | list
+  ignore_errors: "{{ ansible_check_mode }}"
 ...
