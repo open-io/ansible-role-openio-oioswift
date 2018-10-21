@@ -35,7 +35,6 @@
   with_items:
     - "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
     - "{{ openio_oioswift_sysconfig_dir }}/oioswift-{{ openio_oioswift_serviceid }}"
-    - "/var/log/oio/sds/{{ openio_oioswift_namespace }}/oioswift-{{ openio_oioswift_serviceid }}"
 
 - name: Ensure directories exists
   file:
@@ -47,6 +46,16 @@
     recurse: true
   with_items: "{{ _dir.results }}"
   when: not item.stat.exists
+  tags: install
+
+- name: Ensure log directory
+  file:
+    path: "/var/log/oio/sds/{{ openio_oioswift_namespace }}/oioswift-{{ openio_oioswift_serviceid }}"
+    state: directory
+    owner: "{{ syslog_user }}"
+    group: openio
+    mode: 0750
+    recurse: true
   tags: install
 
 - name: Generate configuration files

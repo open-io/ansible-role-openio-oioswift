@@ -8,4 +8,5 @@ oioswift_packages:
   - "{{ 'openio-sds-swift-plugin-s3' \
     if openio_oioswift_swift3_version == 'latest' \
     else 'openio-sds-swift-plugin-s3=' ~ openio_oioswift_swift3_version }}"
+syslog_user: syslog
 ...
