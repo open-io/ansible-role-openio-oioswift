@@ -22,6 +22,7 @@ sds_pool_maxsize = {{ openio_oioswift_sds_pool_maxsize }}
 sds_max_retries = {{ openio_oioswift_sds_max_retries }}
 
 {% if openio_oioswift_sds_oio_storage_policies %}oio_storage_policies={{ openio_oioswift_sds_oio_storage_policies | join(',') }}{% endif %}
+
 {% if openio_oioswift_sds_auto_storage_policies %}auto_storage_policies={{ openio_oioswift_sds_auto_storage_policies | join(',') }}{% endif %}
 
 [pipeline:main]
