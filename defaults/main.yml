@@ -159,8 +159,8 @@ openio_oioswift_filter_container_hierarchy:
   account_first: true
   strip_v1: true
   swift3_compat: true
-  create_dir_placeholders: true
-  recursive_placeholders: true
+  sentinel_hosts: "192.168.1.1:6012,192.168.1.2:6012,192.168.1.3:6012"
+  sentinel_name: "{{ openio_oioswift_namespace }}-master-1"
 
 openio_oioswift_filter_regexcontainer:
   use: "egg:oioswift#regexcontainer"
