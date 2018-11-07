@@ -103,6 +103,9 @@ openio_oioswift_filter_swift3:
   s3_acl: true
   check_bucket_owner: true
   location: "us-east-1"
+  # always set same value
+  max_bucket_listing: 1000
+  max_multi_delete_objects: 1000
 
 openio_oioswift_filter_tempauth:
   use: "egg:swift#tempauth"
