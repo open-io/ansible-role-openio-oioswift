@@ -178,4 +178,12 @@ openio_oioswift_filter_staticweb:
 
 openio_oioswift_filter_crossdomain:
   use: "egg:swift#crossdomain"
+
+openio_oioswift_filter_keymaster:
+  use: "egg:oioswift#keymaster"
+  encryption_root_secret: 1a263a9ffdd8a66d92c6ff8041bb5b018bec7c2df57579851ece11e5342645eb
+
+openio_oioswift_filter_encryption:
+  use: "egg:oioswift#encryption"
+  disable_encryption: false
 ...
