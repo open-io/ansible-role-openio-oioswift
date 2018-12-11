@@ -203,3 +203,17 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
+
+{% if 'keymaster' in openio_oioswift_pipeline %}
+[filter:keymaster]
+{% for k, v in openio_oioswift_filter_keymaster.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
+
+{% if 'encryption' in openio_oioswift_pipeline %}
+[filter:encryption]
+{% for k, v in openio_oioswift_filter_encryption.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}

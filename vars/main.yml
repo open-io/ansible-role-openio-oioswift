@@ -7,6 +7,32 @@ openio_oioswift_definition_file: >
   {{ openio_oioswift_servicename }}/{{ openio_oioswift_servicename }}.conf"
 openio_oioswift_gridinit_dir: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
 
+pipeline_keystone_containerhierarchy:
+  - catch_errors
+  - gatekeeper
+  - healthcheck
+  - proxy-logging
+  - cache
+  - bulk
+  - tempurl
+  - proxy-logging
+  - authtoken
+  - swift3
+  - s3token
+  - keystoneauth
+  - proxy-logging
+  - copy
+  - container-quotas
+  - account-quotas
+  - slo
+  - container_hierarchy
+  - dlo
+  - versioned_writes
+  - keymaster
+  - encryption
+  - proxy-logging
+  - proxy-server
+
 pipeline_keystone:
   - catch_errors
   - gatekeeper
