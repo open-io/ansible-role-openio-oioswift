@@ -53,6 +53,8 @@ pipeline_keystone:
   - slo
   - dlo
   - versioned_writes
+  - keymaster
+  - encryption
   - proxy-logging
   - proxy-server
 
@@ -74,6 +76,8 @@ pipeline_tempauth:
   - slo
   - dlo
   - versioned_writes
+  - keymaster
+  - encryption
   - proxy-logging
   - proxy-server
 ...
