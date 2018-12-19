@@ -7,9 +7,9 @@
   version: master
   name: gridinit
 
-#- src: https://github.com/open-io/ansible-role-openio-oioproxy.git
-#  version: master
-#  name: oioproxy
+- src: https://github.com/open-io/ansible-role-openio-users.git
+  version: master
+  name: users
 
 - src: https://github.com/open-io/ansible-role-openio-memcached.git
   version: master
