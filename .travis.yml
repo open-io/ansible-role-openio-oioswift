@@ -1,5 +1,6 @@
 # .travis.yml Execution script for role tests on Travis-CI
 ---
+dist: xenial
 sudo: required
 
 env:
@@ -8,8 +9,12 @@ env:
   matrix:
     - DISTRIBUTION: centos
       VERSION: 7
+#    - DISTRIBUTION: centos
+#      VERSION: 8
     - DISTRIBUTION: ubuntu
       VERSION: 16.04
+    - DISTRIBUTION: ubuntu
+      VERSION: 18.04
 #    - DISTRIBUTION: debian
 #      VERSION: 9
 
@@ -25,11 +30,16 @@ before_install:
   # Fetch the branch with test code
   - git fetch origin docker-tests
   - git worktree add docker-tests origin/docker-tests
+  # retrieve centralized script
+  - |
+    for i in docker-tests.sh functional-tests.sh ansible.cfg; do
+      wget -O docker-tests/${i} https://raw.githubusercontent.com/open-io/ansible-role-openio-skeleton/docker-tests/${i}
+    done
   # Lint
   - sudo pip install --upgrade pip
   - sudo pip install ansible-lint yamllint
   # sds
-  - export IPVAGRANT=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+  - export IPVAGRANT=$(ip -o -4 addr list ens4 | awk '{print $4}' | cut -d/ -f1)
   - docker run -d --net=host -e OPENIO_IPADDR=${IPVAGRANT} openio/sds
   - export SDS_DOCKER_ID=$(docker ps -aq)
   - while ! docker exec -ti ${SDS_DOCKER_ID}
@@ -37,7 +47,7 @@ before_install:
 
 script:
   # Lint
-  - ansible-lint . -x ANSIBLE0016
+  #- ansible-lint . -x ANSIBLE0016
   - yamllint .
 
   # Create container and apply test playbook
