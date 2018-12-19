@@ -60,6 +60,7 @@ No dependencies.
   vars:
     NS: OPENIO
   roles:
+    - role: users
     - role: repository
     - role: gridinit
     - role: memcached
@@ -78,6 +79,7 @@ No dependencies.
   vars:
     NS: OPENIO
   roles:
+    - role: users
     - role: repository
     - role: gridinit
     - role: memcached
@@ -169,6 +171,8 @@ Middleware available in the template
 * regexcontainer
 * staticweb
 * crossdomain
+* keymaster
+* encryption
 
 You can compose your own pipeline by redefining the variable `openio_oioswift_pipeline`
 
