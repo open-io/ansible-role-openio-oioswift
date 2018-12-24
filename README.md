@@ -42,6 +42,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_sds_version` | `latest` | Version of the `openio-sds-server` package  |
 | `openio_oioswift_sds_write_timeout` | `35` | Timeout for write operations |
 | `openio_oioswift_serviceid` | `0` | Service Id in gridinit |
+| `openio_oioswift_swift_constraints` | `list` | The swift-constraints section sets the basic constraints on data saved in the swift cluster |
 | `openio_oioswift_swift3_version` | `latest` | Version of the `openio-sds-swift-plugin-s3` package |
 | `openio_oioswift_version` | `latest` | Version of the `openio-sds-swift` package |
 | `openio_oioswift_workers` | `3 ansible_processor_vcpus / 4` | Number of threads to process requests |

@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+[swift-constraints]
+{% for k, v in openio_oioswift_swift_constraints.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}

@@ -185,4 +185,9 @@ openio_oioswift_filter_keymaster:
 openio_oioswift_filter_encryption:
   use: "egg:oioswift#encryption"
   disable_encryption: false
+
+openio_oioswift_swift_constraints:
+  max_meta_value_length: 1024
+  max_file_size: 5368709122
+  container_listing_limit: 10000
 ...

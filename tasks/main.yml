@@ -24,6 +24,9 @@
   with_items:
     - path: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
     - path: "{{ openio_oioswift_sysconfig_dir }}/{{ openio_oioswift_servicename }}"
+    - path: "/etc/swift"
+      owner: root
+      group: root
     - path: "/var/log/oio/sds/{{ openio_oioswift_namespace }}/{{ openio_oioswift_servicename }}"
       owner: "{{ syslog_user }}"
       mode: "0750"
@@ -43,6 +46,8 @@
     - src: "gridinit_oioswift.conf.j2"
       dest: "{{ openio_oioswift_gridinit_dir }}/{{ openio_oioswift_gridinit_file_prefix }}\
         {{ openio_oioswift_servicename }}.conf"
+    - src: "swift.conf.j2"
+      dest: "/etc/swift/swift.conf"
   register: _oioswift_conf
 
 - name: restart oioswift
