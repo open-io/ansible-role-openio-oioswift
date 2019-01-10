@@ -16,7 +16,7 @@
   package:
     name: libisal
     state: present
-  when: openio_oioswift_sds_auto_storage_policies | map('lower') | select('match', 'ecisal') | list
+  when: ansible_architecture == 'x86_64'
   ignore_errors: "{{ ansible_check_mode }}"
   register: install_packages_isal
   until: install_packages_isal is success
