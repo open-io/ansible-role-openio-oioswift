@@ -56,6 +56,14 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 {% endfor %}
 {% endif %}
 
+{% if 'verb_acl' in openio_oioswift_pipeline %}
+[filter:verb_acl]
+{% for k, v in openio_oioswift_filter_verb_acl.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
+
+
 {% if 'cache' in openio_oioswift_pipeline %}
 [filter:cache]
 {% for k, v in openio_oioswift_filter_cache.iteritems() %}

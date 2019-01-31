@@ -162,6 +162,7 @@ Middleware available in the template
 * account_quotas
 * slo
 * dlo
+* verb_acl
 * versioned_writes
 * ratelimit
 * hashedcontainer
