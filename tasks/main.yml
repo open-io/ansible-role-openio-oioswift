@@ -39,6 +39,7 @@
     owner: openio
     group: openio
     mode: 0644
+    backup: "{{ openio_oioswift_backup_file_modifications }}"
   with_items:
     - src: "proxy-server.conf.j2"
       dest: "{{ openio_oioswift_sysconfig_dir }}/\

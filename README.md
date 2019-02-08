@@ -18,6 +18,7 @@ Specifically, the responsibilities of this role are to:
 | Variable   | Default | Comments (type)  |
 | :---       | :---    | :---             |
 | `openio_oioswift_app_proxy_server` | `dict` | Options of proxy-server  |
+| `openio_oioswift_backup_file_modifications` | `true` | Create a backup file including the timestamp information |
 | `openio_oioswift_bind_address` | `hostvars[inventory_hostname]['ansible_' + openio_oioswift_bind_interface]['ipv4']['address']` | IP address to use |
 | `openio_oioswift_bind_interface` | `ansible_default_ipv4.alias` | NIC name to use |
 | `openio_oioswift_bind_port` | `6007` | Port to use |
