@@ -38,7 +38,8 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_sds_pool_connections` | `50` | Pool of connection to SDS |
 | `openio_oioswift_sds_pool_maxsize` | `50` | Maximum size of pool connection |
 | `openio_oioswift_sds_proxy_namespace` | `"openio_oioswift_namespace"` | OpenIO namespace of the oioproxy & rawx  |
-| `openio_oioswift_sds_proxy_url` | `http://{{ openio_oioswift_bind_address }}:6006` | Address of the oioproxy used |
+| `openio_oioswift_sds_proxy_interface` | `{{ openio_oioswift_bind_interface }}` | NIC name to use for OpenIO SDS proxy service |
+| `openio_oioswift_sds_proxy_url` | `http://{{ hostvars[inventory_hostname]['ansible_' + openio_oioswift_sds_proxy_interface ]['ipv4']['address'] }}:6006` | Address of the oioproxy used |
 | `openio_oioswift_sds_read_timeout` | `35` | Timeout for read operations |
 | `openio_oioswift_sds_version` | `latest` | Version of the `openio-sds-server` package  |
 | `openio_oioswift_sds_write_timeout` | `35` | Timeout for write operations |
