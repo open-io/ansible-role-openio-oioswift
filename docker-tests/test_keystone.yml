@@ -1,0 +1,113 @@
+# Test playbook
+---
+- hosts: all
+  become: true
+  vars:
+    NS: TRAVIS
+  roles:
+    - role: users
+    - role: repository
+      openio_repository_openstack_release: 'queens'
+      openio_repository_no_log: false
+      openio_repository_products:
+        sds:
+          release: "18.10"
+    - role: gridinit
+      openio_gridinit_namespace: "{{ NS }}"
+      openio_gridinit_per_ns: true
+
+    - role: memcached
+      openio_memcached_namespace: "{{ NS }}"
+
+    - role: memcached
+      openio_memcached_namespace: "{{ NS }}"
+      openio_memcached_serviceid: 1
+      openio_memcached_bind_port: 6119
+
+    - role: keystone
+      openio_keystone_namespace: "{{ NS }}"
+      # change port for test
+      openio_keystone_config_cache_memcache_servers: "{{ ansible_default_ipv4.address }}:6119"
+      openio_keystone_nodes_group: all
+      openio_keystone_database_engine: sqlite
+      openio_keystone_users:
+        - name: demo
+          password: DEMO_PASS
+        - name: swift
+          password: SWIFT_PASS
+        - name: travis
+          password: TRAVIS_PASS
+
+      openio_keystone_uwsgi_bind:
+        keystone-wsgi-public:
+          http-socket: "{{ ansible_default_ipv4.address }}:5000"
+        keystone-wsgi-admin:
+          http-socket: "{{ ansible_default_ipv4.address }}:35357"
+      openio_keystone_services:
+        - name: openio-swift
+          type: object-store
+          description: OpenIO SDS swift proxy
+          endpoint:
+            - interface: admin
+              url: "http://{{ ansible_default_ipv4.address }}:6007/v1/AUTH_%(tenant_id)s"
+            - interface: internal
+              url: "http://{{ ansible_default_ipv4.address }}:6007/v1/AUTH_%(tenant_id)s"
+            - interface: public
+              url: "http://{{ ansible_default_ipv4.address }}:6007/v1/AUTH_%(tenant_id)s"
+      openio_keystone_projects:
+        - name: service
+          domain_id: default
+          roles:
+            - user: swift
+              role: admin
+        - name: demo
+          description: OpenIO demo project
+          domain_id: default
+          roles:
+            - user: demo
+              role: _member_
+            - user: demo
+              role: admin
+        - name: CI
+          description: Tenant test for CI
+          domain_id: default
+          roles:
+            - user: travis
+              role: _member_
+
+    - role: role_under_test
+      openio_oioswift_namespace: "{{ NS }}"
+      openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
+      openio_oioswift_workers: 1
+      openio_oioswift_sds_proxy_namespace: OPENIO
+      openio_oioswift_pipeline: "{{ pipeline_keystone }}"
+      openio_oioswift_sds_proxy_url: "http://{{ lookup('env','IPVAGRANT') }}:6006"
+      openio_oioswift_filter_authtoken:
+        paste.filter_factory: keystonemiddleware.auth_token:filter_factory
+        auth_type: password
+        auth_url: "http://{{ ansible_default_ipv4.address }}:35357"
+        www_authenticate_uri: "http://{{ ansible_default_ipv4.address }}:5000"
+        insecure: "True"
+        region_name: "us-east-1"
+        project_domain_id: default
+        user_domain_id: default
+        project_name: service
+        username: swift
+        password: SWIFT_PASS
+        delay_auth_decision: "True"
+        include_service_catalog: "False"
+        # change port for test
+        memcached_servers: "{{ ansible_default_ipv4.address }}:6119"
+        cache: swift.cache
+        token_cache_time: 300
+        revocation_cache_time: 60
+        memcache_security_strategy: ENCRYPT
+        memcache_secret_key: memcache_secret_key
+      openio_oioswift_filter_s3token:
+        use: "egg:swift3#s3token"
+        delay_auth_decision: "True"
+        auth_uri: "http://{{ ansible_default_ipv4.address }}:35357/"
+      openio_oioswift_filter_cache:
+        use: "egg:swift#memcache"
+        memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
+...

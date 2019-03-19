@@ -1,0 +1,35 @@
+# Test playbook
+---
+
+- hosts: all
+  become: true
+  vars:
+    NS: TRAVIS
+  roles:
+    - role: users
+    - role: repository
+      openio_repository_openstack_release: 'queens'
+      openio_repository_no_log: false
+      openio_repository_products:
+        sds:
+          release: "18.10"
+    - role: gridinit
+      openio_gridinit_namespace: "{{ NS }}"
+      openio_gridinit_per_ns: true
+    - role: memcached
+      openio_memcached_namespace: "{{ NS }}"
+    - role: role_under_test
+      openio_oioswift_namespace: "{{ NS }}"
+      openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
+      openio_oioswift_sds_proxy_url: "http://{{ lookup('env','IPVAGRANT') }}:6006"
+      openio_oioswift_workers: 1
+      openio_oioswift_sds_proxy_namespace: OPENIO
+      openio_oioswift_pipeline: "{{ pipeline_tempauth }}"
+      openio_oioswift_filter_tempauth:
+        use: "egg:swift#tempauth"
+        user_travis_ci: "TRAVIS_PASS .admin"
+      openio_oioswift_filter_cache:
+        use: "egg:swift#memcache"
+        memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
+        memcache_max_connections: 50
+...

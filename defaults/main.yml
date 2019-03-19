@@ -1,7 +1,7 @@
 # roles/oioswift/defaults/main.yml
 ---
-openio_oioswift_namespace: "OPENIO"
-openio_oioswift_serviceid: "0"
+openio_oioswift_namespace: "{{ namespace | default('OPENIO') }}"
+openio_oioswift_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
 openio_oioswift_provision_only: false
 openio_oioswift_backup_file_modifications: true
 
@@ -14,7 +14,8 @@ openio_oioswift_gridinit_file_prefix: ""
 
 openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
 openio_oioswift_bind_address:
-  "{{ hostvars[inventory_hostname]['ansible_' + openio_oioswift_bind_interface]['ipv4']['address'] }}"
+  "{{ openio_bind_address \
+    | default(hostvars[inventory_hostname]['ansible_' + openio_oioswift_bind_interface]['ipv4']['address']) }}"
 
 openio_oioswift_proxy_bind_address: "{{ openio_oioswift_bind_address }}"
 openio_oioswift_bind_port: 6007
@@ -33,8 +34,8 @@ openio_oioswift_sds_default_account: default
 openio_oioswift_sds_connection_timeout: 5
 openio_oioswift_sds_read_timeout: 35
 openio_oioswift_sds_write_timeout: 35
-openio_oioswift_sds_pool_connections: 50
-openio_oioswift_sds_pool_maxsize: 50
+openio_oioswift_sds_pool_connections: 500
+openio_oioswift_sds_pool_maxsize: 500
 openio_oioswift_sds_max_retries: 0
 openio_oioswift_sds_oio_storage_policies: []
   #- SINGLE
@@ -46,7 +47,9 @@ openio_oioswift_sds_auto_storage_policies: []
   #- ECISALC75D1:262144
 
 openio_oioswift_pipeline: "{{ pipeline_keystone }}"
-openio_oioswift_inventory_groupname: ""
+openio_oioswift_inventory_groupname: "oioswift"
+openio_oioswift_keystone_inventory_groupname: keystone
+openio_oioswift_redis_inventory_groupname: redis
 
 openio_oioswift_filter_catch_errors:
   use: "egg:swift#catch_errors"
@@ -64,12 +67,12 @@ openio_oioswift_filter_proxy_logging:
 
 openio_oioswift_filter_cache:
   use: "egg:swift#memcache"
-  memcache_servers: "{% if openio_oioswift_inventory_groupname %}\
-    {{ groups[openio_oioswift_inventory_groupname] |\
-    map('extract', hostvars, ['ansible_' + openio_oioswift_bind_interface, 'ipv4', 'address']) | join(':6019,') }}:6019\
-    {% else %}\
-    {{ openio_oioswift_bind_address }}:6019\
-    {% endif %}"
+  memcache_servers: "{{ (groups[openio_oioswift_inventory_groupname] \
+    | map('extract', hostvars, ['openio_bind_address'])\
+    | map('regex_replace', '$', ':6019') \
+    | join(',')) if openio_oioswift_inventory_groupname in groups \
+    else \
+    openio_oioswift_bind_address ~ ':6019' }}"
   memcache_max_connections: 500
 
 openio_oioswift_filter_bulk:
@@ -78,14 +81,15 @@ openio_oioswift_filter_bulk:
 openio_oioswift_filter_tempurl:
   use: "egg:swift#tempurl"
 
-openio_keystone_swift_password: SWIFT_PASS
+openio_keystone_swift_password: "SWIFT_PASS"
+
 openio_oioswift_filter_authtoken:
   paste.filter_factory: keystonemiddleware.auth_token:filter_factory
   auth_type: password
-  auth_url: "http://{{ openio_oioswift_bind_address }}:35357"
-  www_authenticate_uri: "http://{{ openio_oioswift_bind_address }}:5000"
+  auth_url: "http://{{ openio_bind_virtual_address | d(openio_oioswift_bind_address) }}:35357"
+  www_authenticate_uri: "http://{{ openio_bind_virtual_address | d(openio_oioswift_bind_address) }}:5000"
   insecure: "True"
-  region_name: "us-east-1"
+  region_name: "{{ openio_s3_region | d('us-east-1') }}"
   project_domain_id: default
   user_domain_id: default
   project_name: service
@@ -93,7 +97,12 @@ openio_oioswift_filter_authtoken:
   password: "{{ openio_keystone_swift_password }}"
   delay_auth_decision: "True"
   include_service_catalog: "False"
-  memcached_servers: "{{ openio_oioswift_bind_address }}:6019"
+  memcached_servers: "{{ (groups[openio_oioswift_keystone_inventory_groupname] \
+    | map('extract', hostvars, ['openio_bind_address'])\
+    | map('regex_replace', '$', ':6019') \
+    | join(',')) if openio_oioswift_keystone_inventory_groupname in groups \
+    else \
+    openio_oioswift_bind_address ~ ':6019' }}"
   cache: swift.cache
   token_cache_time: 300
   revocation_cache_time: 60
@@ -105,7 +114,7 @@ openio_oioswift_filter_swift3:
   force_swift_request_proxy_log: true
   s3_acl: true
   check_bucket_owner: true
-  location: "us-east-1"
+  location: "{{ openio_s3_region | d('us-east-1') }}"
   # always set same value
   max_bucket_listing: 1000
   max_multi_delete_objects: 1000
@@ -116,8 +125,8 @@ openio_oioswift_filter_tempauth:
 
 openio_oioswift_filter_s3token:
   use: "egg:swift3#s3token"
-  #delay_auth_decision: "True"
-  auth_uri: "http://{{ openio_oioswift_bind_address }}:35357"
+  delay_auth_decision: "True"
+  auth_uri: "http://{{ openio_bind_virtual_address | default(openio_oioswift_bind_address) }}:35357"
 
 openio_oioswift_filter_keystoneauth:
   use: "egg:swift#keystoneauth"
@@ -167,7 +176,11 @@ openio_oioswift_filter_container_hierarchy:
   account_first: true
   strip_v1: true
   swift3_compat: true
-  sentinel_hosts: "192.168.1.1:6012,192.168.1.2:6012,192.168.1.3:6012"
+  sentinel_hosts: "{{ (groups[openio_oioswift_redis_inventory_groupname] \
+    | map('extract', hostvars, ['openio_bind_address'])\
+    | map('regex_replace', '$', ':6012') \
+    | join(',')) if groups[openio_oioswift_redis_inventory_groupname] is defined \
+    else '' }}"
   sentinel_name: "{{ openio_oioswift_namespace }}-master-1"
 
 openio_oioswift_filter_regexcontainer:

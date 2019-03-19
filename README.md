@@ -19,31 +19,33 @@ Specifically, the responsibilities of this role are to:
 | :---       | :---    | :---             |
 | `openio_oioswift_app_proxy_server` | `dict` | Options of proxy-server  |
 | `openio_oioswift_backup_file_modifications` | `true` | Create a backup file including the timestamp information |
-| `openio_oioswift_bind_address` | `hostvars[inventory_hostname]['ansible_' + openio_oioswift_bind_interface]['ipv4']['address']` | IP address to use |
+| `openio_oioswift_bind_address` | `openio_bind_address` | IP address to use |
 | `openio_oioswift_bind_interface` | `ansible_default_ipv4.alias` | NIC name to use |
 | `openio_oioswift_bind_port` | `6007` | Port to use |
 | `openio_oioswift_filter_*` | `dict` | Options of most used middleware |
 | `openio_oioswift_gridinit_dir` | `/etc/gridinit.d/{{ openio_oioswift_namespace }}` | Path to copy the gridinit conf |
 | `openio_oioswift_gridinit_file_prefix` | `""` | Maybe set it to `{{ openio_oioswift_namespace }}-` for legacy gridinit's style |
-| `openio_oioswift_inventory_groupname` | `""` | Set your inventory groupname to auto feed memcached server on port `6019` |
+| `openio_oioswift_inventory_groupname` | `"oioswift"` | oioswift's groupname in your inventory |
+| `openio_oioswift_keystone_inventory_groupname` | `"keystone"` | keystone's groupname in your inventory |
 | `openio_oioswift_log_level` | `INFO` | Log level |
 | `openio_oioswift_namespace` | `OPENIO` | OpenIO namespace for this proxy swift |
 | `openio_oioswift_pipeline` | ` pipeline_keystone` | `list` of middleware. Some preconfigured are available in `vars/main.yml` |
 | `openio_oioswift_proxy_bind_address` | `openio_oioswift_bind_address` | Listen address for the proxy swift ('0.0.0.0' is possible) |
+| `openio_oioswift_redis_inventory_groupname` | `"redis"` | redis's groupname in your inventory |
 | `openio_oioswift_sds_auto_storage_policies` | `[]` | Setup default policie and limits. Example: `['EC','THREECOPIES:1','EC:262144']` defines `Erasur Code`as default policy and THREECOPIES from 1 byte to `262143`|
 | `openio_oioswift_sds_connection_timeout` | `5` | Timeout for SDS requests |
 | `openio_oioswift_sds_default_account` | `default` | Default Account/Project in OpenIO SDS |
 | `openio_oioswift_sds_max_retries` | `0` | Maximum retries |
 | `openio_oioswift_sds_oio_storage_policies` | `[]` | Available sotrage policies |
-| `openio_oioswift_sds_pool_connections` | `50` | Pool of connection to SDS |
-| `openio_oioswift_sds_pool_maxsize` | `50` | Maximum size of pool connection |
+| `openio_oioswift_sds_pool_connections` | `500` | Pool of connection to SDS |
+| `openio_oioswift_sds_pool_maxsize` | `500` | Maximum size of pool connection |
 | `openio_oioswift_sds_proxy_namespace` | `"openio_oioswift_namespace"` | OpenIO namespace of the oioproxy & rawx  |
 | `openio_oioswift_sds_proxy_interface` | `{{ openio_oioswift_bind_interface }}` | NIC name to use for OpenIO SDS proxy service |
 | `openio_oioswift_sds_proxy_url` | `http://{{ hostvars[inventory_hostname]['ansible_' + openio_oioswift_sds_proxy_interface ]['ipv4']['address'] }}:6006` | Address of the oioproxy used |
 | `openio_oioswift_sds_read_timeout` | `35` | Timeout for read operations |
 | `openio_oioswift_sds_version` | `latest` | Version of the `openio-sds-server` package  |
 | `openio_oioswift_sds_write_timeout` | `35` | Timeout for write operations |
-| `openio_oioswift_serviceid` | `0` | Service Id in gridinit |
+| `openio_oioswift_serviceid` | `"{{ 0 + openio_legacy_serviceid | d(0) | int }}"` | Service Id in gridinit |
 | `openio_oioswift_swift_constraints` | `list` | The swift-constraints section sets the basic constraints on data saved in the swift cluster |
 | `openio_oioswift_swift3_version` | `latest` | Version of the `openio-sds-swift-plugin-s3` package |
 | `openio_oioswift_version` | `latest` | Version of the `openio-sds-swift` package |
