@@ -30,7 +30,7 @@ openio_oioswift_sds_proxy_namespace: "{{ openio_oioswift_namespace }}"
 openio_oioswift_sds_proxy_interface: "{{ openio_oioswift_bind_interface }}"
 openio_oioswift_sds_proxy_url:
   "http://{{ hostvars[inventory_hostname]['ansible_' + openio_oioswift_sds_proxy_interface ]['ipv4']['address'] }}:6006"
-openio_oioswift_sds_default_account: default
+openio_oioswift_sds_default_account: "{{ default_account | d('openio') }}"
 openio_oioswift_sds_connection_timeout: 5
 openio_oioswift_sds_read_timeout: 35
 openio_oioswift_sds_write_timeout: 35
