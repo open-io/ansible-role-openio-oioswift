@@ -51,12 +51,38 @@
       dest: "/etc/swift/swift.conf"
   register: _oioswift_conf
 
-- name: restart oioswift
+- name: "restart oioswift to apply the new configuration"
   shell: |
     gridinit_cmd reload
     gridinit_cmd restart  {{ openio_oioswift_namespace }}-{{ openio_oioswift_servicename }}
   tags: configure
+  register: _restart_oioswift
   when:
-    - _oioswift_conf.changed
+    - _oioswift_conf is changed
     - not openio_oioswift_provision_only
+
+- block:
+    - name: "Ensure oioswift is started"
+      command: gridinit_cmd start {{ openio_oioswift_namespace }}-{{ openio_oioswift_servicename }}
+      register: _start_oioswift
+      changed_when: '"Success" in _start_oioswift.stdout'
+      when:
+        - not openio_oioswift_provision_only
+        - _restart_oioswift is skipped
+      tags: configure
+
+    - name: check oioswift
+      uri:
+        url: "http://{{ openio_oioswift_bind_address }}:{{ openio_oioswift_bind_port }}/healthcheck"
+        return_content: true
+        status_code: 200
+      register: _oioswift_check
+      retries: 3
+      delay: 5
+      until: _oioswift_check is success
+      changed_when: false
+      when:
+        - not openio_oioswift_provision_only
+  when: openio_bootstrap | d(false)
+
 ...
