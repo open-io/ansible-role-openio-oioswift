@@ -157,7 +157,7 @@ openio_oioswift_app_proxy_server:
   allow_account_management: true
   account_autocreate: true
   log_name: "OIO,{{ openio_oioswift_namespace }},oioswift,{{ openio_oioswift_serviceid }}"
-  sds_chunk_checksum_algo: "md5"
+  sds_chunk_checksum_algo: ""
 
 openio_oioswift_filter_verb_acl:
   use: "egg:oioswift#verb_acl"
