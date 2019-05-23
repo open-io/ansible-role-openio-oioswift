@@ -25,11 +25,9 @@ pipeline_keystone_containerhierarchy:
   - container-quotas
   - account-quotas
   - slo
-  - container_hierarchy
   - dlo
+  - container_hierarchy
   - versioned_writes
-  - keymaster
-  - encryption
   - proxy-logging
   - proxy-server
 
