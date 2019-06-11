@@ -5,7 +5,9 @@
   with_first_found:
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
-  tags: install
+  tags:
+    - install
+    - configure
 
 - name: "Include {{ ansible_distribution }} tasks"
   include_tasks: "{{ item }}"
@@ -30,7 +32,7 @@
     - path: "/var/log/oio/sds/{{ openio_oioswift_namespace }}/{{ openio_oioswift_servicename }}"
       owner: "{{ syslog_user }}"
       mode: "0750"
-  tags: install
+  tags: configure
 
 - name: Generate configuration files
   template:
@@ -50,6 +52,7 @@
     - src: "swift.conf.j2"
       dest: "/etc/swift/swift.conf"
   register: _oioswift_conf
+  tags: configure
 
 - name: "restart oioswift to apply the new configuration"
   shell: |
@@ -81,8 +84,8 @@
       delay: 5
       until: _oioswift_check is success
       changed_when: false
+      tags: configure
       when:
         - not openio_oioswift_provision_only
   when: openio_bootstrap | d(false)
-
 ...
