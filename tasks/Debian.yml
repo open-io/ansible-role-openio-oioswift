@@ -11,6 +11,7 @@
   until: install_packages is success
   retries: 5
   delay: 2
+  tags: install
 
 - name: Install package for Erasure Code
   package:
@@ -22,4 +23,5 @@
   until: install_packages_isal is success
   retries: 5
   delay: 2
+  tags: install
 ...
