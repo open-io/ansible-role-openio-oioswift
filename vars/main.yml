@@ -22,12 +22,10 @@ pipeline_keystone_containerhierarchy:
   - keystoneauth
   - proxy-logging
   - copy
-  - container-quotas
-  - account-quotas
   - slo
   - dlo
-  - container_hierarchy
   - versioned_writes
+  - container_hierarchy
   - proxy-logging
   - proxy-server
 
