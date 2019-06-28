@@ -183,6 +183,7 @@ openio_oioswift_filter_container_hierarchy:
   sentinel_name: "{{ openio_oioswift_namespace }}-master-1"
   redis_keys_format: v2
   max_upload_part_num: 10000
+  support_listing_versioning: false
 
 openio_oioswift_filter_regexcontainer:
   use: "egg:oioswift#regexcontainer"
