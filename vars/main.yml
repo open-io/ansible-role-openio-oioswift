@@ -24,6 +24,7 @@ pipeline_keystone_containerhierarchy:
   - copy
   - slo
   - dlo
+  - proxy-logging
   - versioned_writes
   - container_hierarchy
   - proxy-logging
