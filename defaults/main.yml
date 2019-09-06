@@ -45,7 +45,7 @@ openio_oioswift_sds_auto_storage_policies: []
   #- THREECOPIES:0
   #- ECISALC75D1:262144
 
-openio_oioswift_pipeline: "{{ pipeline_keystone }}"
+openio_oioswift_pipeline: "{{ pipeline_keystone_containerhierarchy }}"
 openio_oioswift_inventory_groupname: "oioswift"
 openio_oioswift_keystone_inventory_groupname: keystone
 openio_oioswift_redis_inventory_groupname: redis
