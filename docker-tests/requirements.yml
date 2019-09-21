@@ -1,21 +1,21 @@
 ---
 - src: https://github.com/open-io/ansible-role-openio-repository.git
-  version: "19.04"
+  version: "19.10"
   name: repository
 
 - src: https://github.com/open-io/ansible-role-openio-gridinit.git
-  version: "19.04"
+  version: "19.10"
   name: gridinit
 
 - src: https://github.com/open-io/ansible-role-openio-users.git
-  version: "19.04"
+  version: "19.10"
   name: users
 
 - src: https://github.com/open-io/ansible-role-openio-memcached.git
-  version: "19.04"
+  version: "19.10"
   name: memcached
 
 - src: https://github.com/open-io/ansible-role-openio-keystone.git
-  version: "19.04"
+  version: "19.10"
   name: keystone
 ...
