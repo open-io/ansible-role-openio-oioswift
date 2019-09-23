@@ -3,6 +3,7 @@
 openio_oioswift_namespace: "{{ namespace | default('OPENIO') }}"
 openio_oioswift_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
 openio_oioswift_provision_only: false
+openio_oioswift_package_upgrade: "{{ openio_package_upgrade | d(false) }}"
 openio_oioswift_backup_file_modifications: true
 
 openio_oioswift_version: "latest"

@@ -2,7 +2,7 @@
 - name: Install packages
   package:
     name: "{{ pkg }}"
-    state: present
+    state: "{{ 'latest' if openio_oioswift_package_upgrade else 'present' }}"
   with_items: "{{ oioswift_packages }}"
   loop_control:
     loop_var: pkg
@@ -16,7 +16,7 @@
 - name: Install package for Erasure Code
   package:
     name: libisal2
-    state: present
+    state: "{{ 'latest' if openio_oioswift_package_upgrade else 'present' }}"
   when: openio_oioswift_sds_auto_storage_policies | map('lower') | select('match', 'ecisal') | list
   ignore_errors: "{{ ansible_check_mode }}"
   register: install_packages_isal
