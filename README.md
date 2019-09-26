@@ -26,7 +26,8 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_gridinit_dir` | `/etc/gridinit.d/{{ openio_oioswift_namespace }}` | Path to copy the gridinit conf |
 | `openio_oioswift_gridinit_file_prefix` | `""` | Maybe set it to `{{ openio_oioswift_namespace }}-` for legacy gridinit's style |
 | `openio_oioswift_inventory_groupname` | `"oioswift"` | oioswift's groupname in your inventory |
-| `openio_oioswift_keystone_inventory_groupname` | `"keystone"` | keystone's groupname in your inventory |
+| `openio_oioswift_memcached_keystone_inventory_groupname` | `"memcached_keystone"` or `"memcached"` or `"oioswift"` | memcached groupname for keystone cache in your inventory |
+| `openio_oioswift_memcached_swift_inventory_groupname` | `"memcached_swift"` or `"memcached"` or `"oioswift"` | memcached groupname for swift cache in your inventory |
 | `openio_oioswift_log_level` | `INFO` | Log level |
 | `openio_oioswift_namespace` | `OPENIO` | OpenIO namespace for this proxy swift |
 | `openio_oioswift_pipeline` | ` pipeline_keystone` | `list` of middleware. Some preconfigured are available in `vars/main.yml` |
