@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioswift.svg?branch=master)](https://travis-ci.org/open-io/ansible-role-openio-oioswift)
+[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioswift.svg?branch=19.10)](https://travis-ci.org/open-io/ansible-role-openio-oioswift)
 # Ansible role `oioswift`
 
-An Ansible role for deploy an OpenIO swift gateway.
+An Ansible role for the deployment of an OpenIO swift gateway.
 Specifically, the responsibilities of this role are to:
 
 - Install package
@@ -28,6 +28,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_inventory_groupname` | `"oioswift"` | oioswift's groupname in your inventory |
 | `openio_oioswift_memcached_keystone_inventory_groupname` | `"memcached_keystone"` or `"memcached"` or `"oioswift"` | memcached groupname for keystone cache in your inventory |
 | `openio_oioswift_memcached_swift_inventory_groupname` | `"memcached_swift"` or `"memcached"` or `"oioswift"` | memcached groupname for swift cache in your inventory |
+| `openio_oioswift_location` | `"{{ openio_location_room | default ('') }}{{ openio_location_rack | default ('') }}{{ openio_location_server | default (ansible_hostname ~ '.') }}{{ openio_oioswift_serviceid }}"` | Location |
 | `openio_oioswift_log_level` | `INFO` | Log level |
 | `openio_oioswift_namespace` | `OPENIO` | OpenIO namespace for this proxy swift |
 | `openio_oioswift_pipeline` | ` pipeline_keystone` | `list` of middleware. Some preconfigured are available in `vars/main.yml` |
@@ -46,6 +47,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_sds_version` | `latest` | Version of the `openio-sds-server` package  |
 | `openio_oioswift_sds_write_timeout` | `35` | Timeout for write operations |
 | `openio_oioswift_serviceid` | `"{{ 0 + openio_legacy_serviceid | d(0) | int }}"` | Service Id in gridinit |
+| `openio_oioswift_slots` | `[oioswift]` | The service's slots in conscience |
 | `openio_oioswift_swift_constraints` | `list` | The swift-constraints section sets the basic constraints on data saved in the swift cluster |
 | `openio_oioswift_swift3_version` | `latest` | Version of the `openio-sds-swift-plugin-s3` package |
 | `openio_oioswift_version` | `latest` | Version of the `openio-sds-swift` package |

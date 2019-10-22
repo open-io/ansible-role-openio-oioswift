@@ -1,6 +1,7 @@
 ---
 openio_oioswift_sysconfig_dir: "/etc/oio/sds/{{ openio_oioswift_namespace }}"
 openio_oioswift_servicename: "oioswift-{{ openio_oioswift_serviceid }}"
+openio_oioswift_type: oioswift
 
 openio_oioswift_definition_file: >
   "{{ openio_oioswift_sysconfig_dir }}/

@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+---
+host: {{ openio_oioswift_bind_address }}
+port: {{ openio_oioswift_bind_port }}
+type: oioswift
+{% if openio_oioswift_location | ipaddr %}
+location: {{ openio_oioswift_location | replace(".", "-") }}
+{% else %}
+location: {{ openio_oioswift_location }}
+{% endif %}
+checks:
+  - {type: http, uri: /healthcheck}
+stats:
+  - {type: system}
+  - {type: http, path: /_status, parser: json}
+slots:
+  {{ openio_oioswift_slots | to_nice_yaml | indent(2) }}
+...

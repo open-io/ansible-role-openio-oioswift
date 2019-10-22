@@ -10,6 +10,15 @@ openio_oioswift_version: "latest"
 openio_oioswift_swift3_version: "latest"
 openio_oioswift_sds_version: "latest"
 
+openio_oioswift_location: "{{ openio_location_room | default ('') }}{{ openio_location_rack | default ('') }}\
+  {{ openio_location_server | default (ansible_hostname ~ '.') }}{{ openio_oioswift_serviceid }}"
+
+openio_oioswift_slots:
+  "{{ [ openio_oioswift_type, openio_oioswift_type ~ '-' ~ openio_oioswift_location.split('.')[:-2] \
+  | join('-') ] \
+  if openio_oioswift_location.split('.') | length > 2 \
+  else [ openio_oioswift_type ] }}"
+
 openio_oioswift_gridinit_dir: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
 openio_oioswift_gridinit_file_prefix: ""
 
@@ -71,7 +80,7 @@ openio_oioswift_filter_gatekeeper:
   use: "egg:swift#gatekeeper"
 
 openio_oioswift_filter_healthcheck:
-  use: "egg:swift#healthcheck"
+  use: "egg:oioswift#healthcheck"
 
 openio_oioswift_filter_proxy_logging:
   use: "egg:swift#proxy_logging"

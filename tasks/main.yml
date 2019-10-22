@@ -29,6 +29,7 @@
     - path: "/etc/swift"
       owner: root
       group: root
+    - path: "{{ openio_oioswift_sysconfig_dir }}/watch"
     - path: "/var/log/oio/sds/{{ openio_oioswift_namespace }}/{{ openio_oioswift_servicename }}"
       owner: "{{ syslog_user }}"
       mode: "0750"
@@ -51,6 +52,8 @@
         {{ openio_oioswift_servicename }}.conf"
     - src: "swift.conf.j2"
       dest: "/etc/swift/swift.conf"
+    - src: "watch-oioswift.yml.j2"
+      dest: "{{ openio_oioswift_sysconfig_dir }}/watch/{{ openio_oioswift_servicename }}.yml"
   register: _oioswift_conf
   tags: configure
 
