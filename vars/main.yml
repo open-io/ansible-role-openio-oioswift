@@ -7,6 +7,8 @@ openio_oioswift_definition_file: >
   {{ openio_oioswift_servicename }}/{{ openio_oioswift_servicename }}.conf"
 openio_oioswift_gridinit_dir: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
 
+default_openio_redis_keys_format: "v2"
+
 pipeline_keystone_containerhierarchy:
   - catch_errors
   - gatekeeper
