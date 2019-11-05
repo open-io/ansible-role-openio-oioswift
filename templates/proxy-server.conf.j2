@@ -31,35 +31,35 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 
 {% if 'catch_errors' in openio_oioswift_pipeline %}
 [filter:catch_errors]
-{% for k, v in openio_oioswift_filter_catch_errors.iteritems() %}
+{% for k, v in openio_oioswift_filter_catch_errors.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'gatekeeper' in openio_oioswift_pipeline %}
 [filter:gatekeeper]
-{% for k, v in openio_oioswift_filter_gatekeeper.iteritems() %}
+{% for k, v in openio_oioswift_filter_gatekeeper.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'healthcheck' in openio_oioswift_pipeline %}
 [filter:healthcheck]
-{% for k, v in openio_oioswift_filter_healthcheck.iteritems() %}
+{% for k, v in openio_oioswift_filter_healthcheck.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'proxy-logging' in openio_oioswift_pipeline %}
 [filter:proxy-logging]
-{% for k, v in openio_oioswift_filter_proxy_logging.iteritems() %}
+{% for k, v in openio_oioswift_filter_proxy_logging.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'verb_acl' in openio_oioswift_pipeline %}
 [filter:verb_acl]
-{% for k, v in openio_oioswift_filter_verb_acl.iteritems() %}
+{% for k, v in openio_oioswift_filter_verb_acl.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
@@ -67,119 +67,119 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 
 {% if 'cache' in openio_oioswift_pipeline %}
 [filter:cache]
-{% for k, v in openio_oioswift_filter_cache.iteritems() %}
+{% for k, v in openio_oioswift_filter_cache.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'bulk' in openio_oioswift_pipeline %}
 [filter:bulk]
-{% for k, v in openio_oioswift_filter_bulk.iteritems() %}
+{% for k, v in openio_oioswift_filter_bulk.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'tempurl' in openio_oioswift_pipeline %}
 [filter:tempurl]
-{% for k, v in openio_oioswift_filter_tempurl.iteritems() %}
+{% for k, v in openio_oioswift_filter_tempurl.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'swift3' in openio_oioswift_pipeline %}
 [filter:swift3]
-{% for k, v in openio_oioswift_filter_swift3.iteritems() %}
+{% for k, v in openio_oioswift_filter_swift3.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'tempauth' in openio_oioswift_pipeline %}
 [filter:tempauth]
-{% for k, v in openio_oioswift_filter_tempauth.iteritems() %}
+{% for k, v in openio_oioswift_filter_tempauth.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'copy' in openio_oioswift_pipeline %}
 [filter:copy]
-{% for k, v in openio_oioswift_filter_copy.iteritems() %}
+{% for k, v in openio_oioswift_filter_copy.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'container-quotas' in openio_oioswift_pipeline %}
 [filter:container-quotas]
-{% for k, v in openio_oioswift_filter_container_quotas.iteritems() %}
+{% for k, v in openio_oioswift_filter_container_quotas.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'account-quotas' in openio_oioswift_pipeline %}
 [filter:account-quotas]
-{% for k, v in openio_oioswift_filter_account_quotas.iteritems() %}
+{% for k, v in openio_oioswift_filter_account_quotas.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'slo' in openio_oioswift_pipeline %}
 [filter:slo]
-{% for k, v in openio_oioswift_filter_slo.iteritems() %}
+{% for k, v in openio_oioswift_filter_slo.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'dlo' in openio_oioswift_pipeline %}
 [filter:dlo]
-{% for k, v in openio_oioswift_filter_dlo.iteritems() %}
+{% for k, v in openio_oioswift_filter_dlo.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'versioned_writes' in openio_oioswift_pipeline %}
 [filter:versioned_writes]
-{% for k, v in openio_oioswift_filter_versioned_writes.iteritems() %}
+{% for k, v in openio_oioswift_filter_versioned_writes.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'proxy-server' in openio_oioswift_pipeline %}
 [app:proxy-server]
-{% for k, v in openio_oioswift_app_proxy_server.iteritems() %}
+{% for k, v in openio_oioswift_app_proxy_server.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'ratelimit' in openio_oioswift_pipeline %}
 [filter:ratelimit]
-{% for k, v in openio_oioswift_filter_ratelimit.iteritems() %}
+{% for k, v in openio_oioswift_filter_ratelimit.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'hashedcontainer' in openio_oioswift_pipeline %}
 [filter:hashedcontainer]
-{% for k, v in openio_oioswift_filter_hashedcontainer.iteritems() %}
+{% for k, v in openio_oioswift_filter_hashedcontainer.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 's3token' in openio_oioswift_pipeline %}
 [filter:s3token]
-{% for k, v in openio_oioswift_filter_s3token.iteritems() %}
+{% for k, v in openio_oioswift_filter_s3token.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'authtoken' in openio_oioswift_pipeline %}
 [filter:authtoken]
-{% for k, v in openio_oioswift_filter_authtoken.iteritems() %}
+{% for k, v in openio_oioswift_filter_authtoken.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'keystoneauth' in openio_oioswift_pipeline %}
 [filter:keystoneauth]
-{% for k, v in openio_oioswift_filter_keystoneauth.iteritems() %}
+{% for k, v in openio_oioswift_filter_keystoneauth.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
@@ -187,42 +187,42 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 
 {% if 'container_hierarchy' in openio_oioswift_pipeline %}
 [filter:container_hierarchy]
-{% for k, v in openio_oioswift_filter_container_hierarchy.iteritems() %}
+{% for k, v in openio_oioswift_filter_container_hierarchy.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'regexcontainer' in openio_oioswift_pipeline %}
 [filter:regexcontainer]
-{% for k, v in openio_oioswift_filter_regexcontainer.iteritems() %}
+{% for k, v in openio_oioswift_filter_regexcontainer.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'staticweb' in openio_oioswift_pipeline %}
 [filter:staticweb]
-{% for k, v in openio_oioswift_filter_staticweb.iteritems() %}
+{% for k, v in openio_oioswift_filter_staticweb.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'crossdomain' in openio_oioswift_pipeline %}
 [filter:crossdomain]
-{% for k, v in openio_oioswift_filter_crossdomain.iteritems() %}
+{% for k, v in openio_oioswift_filter_crossdomain.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'keymaster' in openio_oioswift_pipeline %}
 [filter:keymaster]
-{% for k, v in openio_oioswift_filter_keymaster.iteritems() %}
+{% for k, v in openio_oioswift_filter_keymaster.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
 
 {% if 'encryption' in openio_oioswift_pipeline %}
 [filter:encryption]
-{% for k, v in openio_oioswift_filter_encryption.iteritems() %}
+{% for k, v in openio_oioswift_filter_encryption.items() | list %}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
