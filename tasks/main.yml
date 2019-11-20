@@ -16,6 +16,17 @@
     - "{{ ansible_os_family }}.yml"
   tags: install
 
+- name: Install oioswift extended
+  package:
+    name: openio-sds-swift-extended
+    state: present
+  ignore_errors: "{{ ansible_check_mode }}"
+  register: install_oioswift_extended
+  until: install_oioswift_extended is success
+  retries: 5
+  delay: 2
+  tags: install
+
 - name: Ensure directories exists
   file:
     path: "{{ item.path }}"

@@ -73,6 +73,10 @@ openio_oioswift_memcached_swift_inventory_groupname: "{%- if 'memcached_swift' i
   {{ openio_oioswift_inventory_groupname }}
   {%- endif -%}"
 
+openio_oioswift_extended: "{{ true \
+  if openio_repositories_credentials is defined and openio_repositories_credentials.get('oioswiftext')\
+  else false }}"
+
 openio_oioswift_filter_catch_errors:
   use: "egg:swift#catch_errors"
 
@@ -195,7 +199,7 @@ openio_oioswift_filter_hashedcontainer:
   use: "egg:oioswift#hashedcontainer"
 
 openio_oioswift_filter_container_hierarchy:
-  use: "egg:oioswift#container_hierarchy"
+  use: "egg:{{ 'oioswiftext' if openio_oioswift_extended else 'oioswift' }}#container_hierarchy"
   log_level: INFO
   account_first: true
   strip_v1: true
