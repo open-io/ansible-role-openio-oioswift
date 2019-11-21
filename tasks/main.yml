@@ -26,6 +26,7 @@
   retries: 5
   delay: 2
   tags: install
+  when: openio_oioswift_extended
 
 - name: Ensure directories exists
   file:
