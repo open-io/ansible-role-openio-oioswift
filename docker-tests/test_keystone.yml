@@ -77,6 +77,7 @@
       openio_oioswift_namespace: "{{ NS }}"
       openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
       openio_oioswift_workers: 1
+      # The following namespace is not the above one "{{ NS }}", but the one from the docker image
       openio_oioswift_sds_proxy_namespace: OPENIO
       openio_oioswift_pipeline: "{{ pipeline_keystone }}"
       openio_oioswift_sds_proxy_url: "http://{{ lookup('env','IPVAGRANT') }}:6006"
