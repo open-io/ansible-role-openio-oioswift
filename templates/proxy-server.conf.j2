@@ -8,6 +8,7 @@ max_clients = {{ openio_oioswift_max_clients }}
 user = openio
 log_facility = /dev/log
 log_level = {{ openio_oioswift_log_level }}
+log_name = OIO,{{ openio_oioswift_namespace }},oioswift,{{ openio_oioswift_serviceid }}
 eventlet_debug = false
 
 sds_namespace = {{ openio_oioswift_sds_proxy_namespace }}
