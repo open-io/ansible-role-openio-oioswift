@@ -57,13 +57,14 @@ openio_oioswift_sds_auto_storage_policies: []
 
 openio_oioswift_pipeline: "{{ pipeline_keystone_containerhierarchy }}"
 openio_oioswift_inventory_groupname: "oioswift"
+openio_keystone_inventory_groupname: "keystone"
 openio_oioswift_redis_inventory_groupname: redis
 openio_oioswift_memcached_keystone_inventory_groupname: "{%- if 'memcached_keystone' in groups -%}
   memcached_keystone
   {%- elif 'memcached' in groups -%}
   memcached
   {%- else -%}
-  {{ openio_oioswift_inventory_groupname }}
+  {{ openio_keystone_inventory_groupname }}
   {%- endif -%}"
 openio_oioswift_memcached_swift_inventory_groupname: "{%- if 'memcached_swift' in groups -%}
   memcached_swift
