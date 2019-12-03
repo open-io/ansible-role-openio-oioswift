@@ -22,6 +22,7 @@ Specifically, the responsibilities of this role are to:
 | `openio_oioswift_bind_address` | `openio_bind_address` | IP address to use |
 | `openio_oioswift_bind_interface` | `ansible_default_ipv4.alias` | NIC name to use |
 | `openio_oioswift_bind_port` | `6007` | Port to use |
+| `openio_oioswift_conscience_id` | `IP:PORT` | Id in conscience. Length must inferior than 32 |
 | `openio_oioswift_filter_*` | `dict` | Options of most used middleware |
 | `openio_oioswift_gridinit_dir` | `/etc/gridinit.d/{{ openio_oioswift_namespace }}` | Path to copy the gridinit conf |
 | `openio_oioswift_gridinit_file_prefix` | `""` | Maybe set it to `{{ openio_oioswift_namespace }}-` for legacy gridinit's style |

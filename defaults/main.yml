@@ -13,6 +13,8 @@ openio_oioswift_sds_version: "latest"
 openio_oioswift_location: "{{ openio_location_room | default ('') }}{{ openio_location_rack | default ('') }}\
   {{ openio_location_server | default (ansible_hostname ~ '.') }}{{ openio_oioswift_serviceid }}"
 
+openio_oioswift_conscience_id: "{{ openio_oioswift_bind_address }}:{{ openio_oioswift_bind_port }}"
+
 openio_oioswift_slots:
   "{{ [ openio_oioswift_type, openio_oioswift_type ~ '-' ~ openio_oioswift_location.split('.')[:-2] \
   | join('-') ] \

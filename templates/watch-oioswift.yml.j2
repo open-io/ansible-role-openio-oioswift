@@ -8,6 +8,7 @@ location: {{ openio_oioswift_location | replace(".", "-") }}
 {% else %}
 location: {{ openio_oioswift_location }}
 {% endif %}
+service_id: {{ openio_oioswift_conscience_id | truncate(31,true,'') }}
 checks:
   - {type: http, uri: /healthcheck}
 stats:
