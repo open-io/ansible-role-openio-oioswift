@@ -53,6 +53,28 @@ pipeline_keystone:
   - proxy-logging
   - proxy-server
 
+pipeline_keystone_bigdata:
+  - catch_errors
+  - gatekeeper
+  - healthcheck
+  - proxy-logging
+  - lb307
+  - cache
+  - bulk
+  - proxy-logging
+  - authtoken
+  - swift3
+  - s3token
+  - keystoneauth
+  - proxy-logging
+  - copy
+  - slo
+  - dlo
+  - versioned_writes
+  - container_hierarchy
+  - proxy-logging
+  - proxy-server
+
 pipeline_tempauth:
   - catch_errors
   - gatekeeper
