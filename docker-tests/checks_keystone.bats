@@ -11,9 +11,9 @@ run_only_test() {
 }
 
 setup() {
-  run_only_test "172.17.0.2"
+  run_only_test "172.17.0.3"
   TOKEN=$(curl -i  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens | grep X-Subject-Token: | awk '{sub(/\r/, ""); print $2}')
-  STORAGE_URL=$(curl -s  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens |  python -mjson.tool | grep http://172.17.0.2:6007/v1/AUTH_ | sort -u | awk '{sub(/\r/, ""); gsub(/"/, "", $2);  print $2}')
+  STORAGE_URL=$(curl -s  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens |  python -mjson.tool | grep http://172.17.0.3:6007/v1/AUTH_ | sort -u | awk '{sub(/\r/, ""); gsub(/"/, "", $2);  print $2}')
 }
 
 @test 'Stat account - keystoneauth' {

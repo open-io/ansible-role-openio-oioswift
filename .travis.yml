@@ -1,18 +1,18 @@
 # .travis.yml Execution script for role tests on Travis-CI
 ---
-dist: xenial
+dist: bionic
 sudo: required
 
 env:
   global:
-    - ANSIBLE_VERSION=2.5
+    - ANSIBLE_VERSION=2.9
   matrix:
     - DISTRIBUTION: centos
       VERSION: 7
 #    - DISTRIBUTION: centos
 #      VERSION: 8
-    - DISTRIBUTION: ubuntu
-      VERSION: 16.04
+#    - DISTRIBUTION: ubuntu
+#      VERSION: 16.04
     - DISTRIBUTION: ubuntu
       VERSION: 18.04
 #    - DISTRIBUTION: debian
@@ -20,6 +20,10 @@ env:
 
 services:
   - docker
+
+language: python
+python:
+  - "3.6"
 
 before_install:
   # Install latest Git
@@ -39,8 +43,7 @@ before_install:
   - sudo pip install --upgrade pip
   - sudo pip install ansible-lint yamllint
   # sds
-  - export IPVAGRANT=$(ip -o -4 addr list ens4 | awk '{print $4}' | cut -d/ -f1)
-  - docker run -d --net=host -e OPENIO_IPADDR=${IPVAGRANT} openio/sds
+  - docker run -d openio/sds
   - export SDS_DOCKER_ID=$(docker ps -aq)
   - while ! docker exec -ti ${SDS_DOCKER_ID}
     openio container create travis_container --oio-ns OPENIO --oio-account travis_project; do sleep 1; done
@@ -56,6 +59,6 @@ script:
 
   # Run functional tests on the container
   #- SUT_ID=$(docker ps -qa) ./docker-tests/functional-tests.sh
-  - SUT_IP=172.17.0.2 ./docker-tests/functional-tests.sh
   - SUT_IP=172.17.0.3 ./docker-tests/functional-tests.sh
+  - SUT_IP=172.17.0.4 ./docker-tests/functional-tests.sh
 ...
