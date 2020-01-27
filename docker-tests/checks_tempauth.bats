@@ -11,7 +11,7 @@ run_only_test() {
 }
 
 setup() {
-  run_only_test "172.17.0.3"
+  run_only_test "172.17.0.4"
   TOKEN=$(curl -v -H 'X-Storage-User: travis:ci' -H 'X-Storage-Pass: TRAVIS_PASS' http://${SUT_IP}:6007/auth/v1.0  2>&1 | grep X-Auth-Token: | awk '{sub(/\r/, ""); print $3}')
   STORAGE_URL=$(curl -v -H 'X-Storage-User: travis:ci' -H 'X-Storage-Pass: TRAVIS_PASS' http://${SUT_IP}:6007/auth/v1.0  2>&1 | grep X-Storage-Url | awk '{sub(/\r/, ""); print $3}')
 }
