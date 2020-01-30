@@ -234,3 +234,10 @@ pipeline = {{ openio_oioswift_pipeline | join(' ') }}
 {{ k }} = {{ v }}
 {% endfor %}
 {% endif %}
+
+{% if 'iam' in openio_oioswift_pipeline %}
+[filter:iam]
+{% for k, v in openio_oioswift_filter_iam.items() | list %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
