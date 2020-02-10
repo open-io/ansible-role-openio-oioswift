@@ -102,7 +102,7 @@ openio_oioswift_filter_cache:
     | list | unique | join(',')) if openio_oioswift_memcached_swift_inventory_groupname in groups \
     else \
     openio_oioswift_bind_address ~ ':6019' }}"
-  memcache_max_connections: 500
+  memcache_max_connections: 50
 
 openio_oioswift_filter_bulk:
   use: "egg:swift#bulk"
