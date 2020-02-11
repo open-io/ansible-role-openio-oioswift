@@ -189,7 +189,7 @@ openio_oioswift_filter_container_hierarchy:
     | list | unique | join(',')) if groups[openio_oioswift_redis_inventory_groupname] is defined \
     else '' }}"
   sentinel_name: "{{ openio_oioswift_namespace }}-master-1"
-  redis_keys_format: v2
+  redis_keys_format: v3
   support_listing_versioning: false
 
 openio_oioswift_filter_regexcontainer:
