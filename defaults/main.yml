@@ -142,7 +142,7 @@ openio_oioswift_filter_account_quotas:
   use: "egg:swift#account_quotas"
 
 openio_oioswift_filter_slo:
-  use: "egg:swift#slo"
+  use: "egg:oioswift#slo"
   max_manifest_segments: 10000
   concurrency: 10
 
