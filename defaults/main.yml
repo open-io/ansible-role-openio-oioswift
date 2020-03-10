@@ -214,6 +214,9 @@ openio_oioswift_filter_encryption:
   use: "egg:oioswift#encryption"
   disable_encryption: false
 
+openio_oioswift_filter_iam:
+  use: "egg:swift3#iam"
+
 openio_oioswift_swift_constraints:
   max_meta_value_length: 1024
   max_file_size: 5368709122
