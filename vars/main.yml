@@ -29,6 +29,29 @@ pipeline_keystone_containerhierarchy:
   - proxy-logging
   - proxy-server
 
+pipeline_keystone_containerhierarchy_iam:
+  - catch_errors
+  - gatekeeper
+  - healthcheck
+  - proxy-logging
+  - cache
+  - bulk
+  - tempurl
+  - proxy-logging
+  - iam
+  - authtoken
+  - swift3
+  - s3token
+  - keystoneauth
+  - proxy-logging
+  - copy
+  - slo
+  - dlo
+  - versioned_writes
+  - container_hierarchy
+  - proxy-logging
+  - proxy-server
+
 pipeline_keystone:
   - catch_errors
   - gatekeeper
@@ -85,6 +108,28 @@ pipeline_tempauth:
   - bulk
   - tempurl
   - proxy-logging
+  - swift3
+  - tempauth
+  - proxy-logging
+  - copy
+  - container-quotas
+  - account-quotas
+  - slo
+  - dlo
+  - versioned_writes
+  - proxy-logging
+  - proxy-server
+
+pipeline_tempauth_iam:
+  - catch_errors
+  - gatekeeper
+  - healthcheck
+  - proxy-logging
+  - cache
+  - bulk
+  - tempurl
+  - proxy-logging
+  - iam
   - swift3
   - tempauth
   - proxy-logging
