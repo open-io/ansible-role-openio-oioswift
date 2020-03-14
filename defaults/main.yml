@@ -244,8 +244,26 @@ openio_oioswift_filter_lb307:
   service_id: "{{ openio_oioswift_conscience_id }}"
   service_pool: "{{ openio_oioswift_type }}"
 
-openio_oioswift_filter_iam:
-  use: "egg:swift3#iam"
+openio_oioswift_iam_policy:
+  'demo:demo':
+    Statement:
+      - Sid: FullAccess
+        Action:
+          - 's3:*'
+        Effect: Allow
+        Resource:
+          - '*'
+
+openio_oioswift_filter_iam: >-
+  {% set prop = {} -%}
+  {% if openio_oioswift_extended -%}
+  {%   set _ = prop.update({'use': 'egg:oioswiftext#iam'}) -%}
+  {% else -%}
+  {%   set _ = prop.update({'use': 'egg:swift3#iam'}) -%}
+  {%   set _ = prop.update({'connection': 'file://' ~ openio_oioswift_sysconfig_dir ~ '/' ~ openio_oioswift_servicename
+         ~ '/' ~ 'iam_rules.json'}) -%}
+  {% endif -%}
+  {{ prop }}
 
 openio_oioswift_swift_constraints:
   max_meta_value_length: 1024
