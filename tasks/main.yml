@@ -66,6 +66,21 @@
   register: _oioswift_conf
   tags: configure
 
+- name: Generate IAM policies
+  template:
+    src: iam_rules.json.j2
+    dest: "{{ openio_oioswift_sysconfig_dir }}/\
+      {{ openio_oioswift_servicename }}/iam_rules.json"
+    owner: openio
+    group: openio
+    mode: 0640
+    backup: "{{ openio_oioswift_backup_file_modifications }}"
+  register: _iam_conf
+  tags: configure
+  when:
+    - not openio_oioswift_extended
+    - "'iam' in openio_oioswift_pipeline"
+
 - name: "restart oioswift to apply the new configuration"
   shell: |
     gridinit_cmd reload
@@ -73,7 +88,7 @@
   tags: configure
   register: _restart_oioswift
   when:
-    - _oioswift_conf is changed
+    - _oioswift_conf is changed or _iam_conf is changed
     - not openio_oioswift_provision_only
 
 - block:
