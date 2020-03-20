@@ -1,7 +1,7 @@
 ---
 openio_oioswift_namespace: "{{ namespace | default('OPENIO') }}"
 openio_oioswift_serviceid: "{{ 0 + openio_legacy_serviceid | d(0) | int }}"
-openio_oioswift_provision_only: false
+openio_oioswift_provision_only: "{{ openio_maintenance_mode | default(false) | bool }}"
 openio_oioswift_package_upgrade: "{{ openio_package_upgrade | d(false) }}"
 openio_oioswift_backup_file_modifications: true
 
@@ -20,8 +20,8 @@ openio_oioswift_slots:
   if openio_oioswift_location.split('.') | length > 2 \
   else [ openio_oioswift_type ] }}"
 
-openio_oioswift_gridinit_dir: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
-openio_oioswift_gridinit_file_prefix: ""
+openio_oioswift_gridinit_dir: "{{ openio_gridinit_d | d('/etc/gridinit.d/' ~ openio_oioswift_namespace) }}"
+openio_oioswift_gridinit_file_prefix: "{{ openio_oioswift_namespace }}-"
 
 openio_oioswift_bind_interface: "{{ ansible_default_ipv4.alias }}"
 openio_oioswift_bind_address:
