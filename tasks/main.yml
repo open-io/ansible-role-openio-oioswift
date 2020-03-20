@@ -36,7 +36,6 @@
     group: "{{ item.group | default('openio') }}"
     mode: "{{ item.mode | default(0755) }}"
   with_items:
-    - path: "/etc/gridinit.d/{{ openio_oioswift_namespace }}"
     - path: "{{ openio_oioswift_sysconfig_dir }}/{{ openio_oioswift_servicename }}"
     - path: "/etc/swift"
       owner: root

@@ -12,7 +12,7 @@
       openio_repository_mirror_host: mirror2.openio.io
     - role: gridinit
       openio_gridinit_namespace: "{{ NS }}"
-      openio_gridinit_per_ns: true
+      #openio_gridinit_per_ns: true
 
     - role: memcached
       openio_memcached_namespace: "{{ NS }}"
