@@ -138,17 +138,34 @@ openio_oioswift_filter_authtoken:
   memcache_security_strategy: ENCRYPT
   memcache_secret_key: memcache_secret_key
 
-openio_oioswift_filter_swift3:
-  use: "egg:swift3#swift3"
-  force_swift_request_proxy_log: true
-  s3_acl: true
-  check_bucket_owner: true
-  location: "{{ openio_s3_region | d('us-east-1') }}"
-  # always set same value
-  max_bucket_listing: 1000
-  max_multi_delete_objects: 1000
-  max_upload_part_num: 10000
-  log_s3api_command: false
+openio_oioswift_filter_swift3_storage_domain: "s3.openio.io"
+openio_oioswift_filter_swift3: >-
+  {% set prop = {} -%}
+  {% set _ = prop.update({'use': 'egg:swift3#swift3'}) -%}
+  {% set _ = prop.update({'force_swift_request_proxy_log': true}) -%}
+  {% set _ = prop.update({'s3_acl': true}) -%}
+  {% set _ = prop.update({'check_bucket_owner': true}) -%}
+  {% set _ = prop.update({'location': openio_s3_region | d("us-east-1")}) -%}
+  {% set _ = prop.update({'max_bucket_listing': 1000}) -%}
+  {% set _ = prop.update({'max_multi_delete_objects': 1000}) -%}
+  {% set _ = prop.update({'max_upload_part_num': 10000}) -%}
+  {% set _ = prop.update({'log_s3api_command': false}) -%}
+  {% if groups[openio_oioswift_redis_inventory_groupname] is defined
+        and groups[openio_oioswift_redis_inventory_groupname] | length >= 1 -%}
+  {%   set redisgrp = groups[openio_oioswift_redis_inventory_groupname] -%}
+  {%   set _ = prop.update({'bucket_db_enabled': true}) -%}
+  {%   set _ = prop.update({'bucket_db_prefix': 's3bucket:'}) -%}
+  {%   set _ = prop.update({'storage_domain': openio_oioswift_filter_swift3_storage_domain}) -%}
+  {%   if redisgrp | length >= 3 -%}
+  {%     set _ = prop.update({'bucket_db_master_name': openio_oioswift_namespace ~ '-master-1'}) -%}
+  {%     set _ = prop.update({'bucket_db_sentinel_hosts': redisgrp
+                   | map('extract', hostvars, ['openio_bind_address'])
+                   | map('regex_replace', '$', ':6012') | list | unique | join(',') }) -%}
+  {%   else -%}
+  {%     set _ = prop.update({'bucket_db_host': hostvars[redisgrp[0]]['openio_bind_address'] ~ ':6011' }) -%}
+  {%   endif -%}
+  {% endif -%}
+  {{ prop }}
 
 openio_oioswift_filter_tempauth:
   use: "egg:swift#tempauth"
