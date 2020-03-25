@@ -1,7 +1,26 @@
 # Test playbook
 ---
+- name: generate docker redis group
+  hosts: all
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: "{{ item.name }}"
+        ansible_host: "{{ item.ip }}"
+        openio_bind_address: "{{ item.ip }}"
+        ansible_eth0:
+          ipv4:
+            address: "{{ item.ip }}"
+        groups: redis
+      with_items:
+        - { name: "node1", ip: "172.17.0.2" }
+        #- { name: "node2", ip: "172.17.0.3" }
+        #- { name: "node3", ip: "172.17.0.4" }
+      delegate_to: localhost
+      run_once: true
+      changed_when: false
 
-- hosts: all
+- hosts: localhost
   become: true
   vars:
     NS: TRAVIS
@@ -44,28 +63,18 @@
               Effect: Allow
               Resource:
                 - '*'
+        'plop:user1':
+          Statement:
+            - Sid: FullAccess
+              Action:
+                - 's3:*'
+              Effect: Allow
+              Resource:
+                - '*'
 
       openio_oioswift_filter_tempauth:
         use: "egg:swift#tempauth"
         user_travis_ci: "TRAVIS_PASS .admin"
         user_travis_user1: "USER1_PASS .admin"
-      openio_oioswift_filter_cache:
-        use: "egg:swift#memcache"
-        memcache_servers: "{{ openio_oioswift_bind_address }}:6019"
-        memcache_max_connections: 50
-
-      openio_oioswift_filter_swift3:
-        use: "egg:swift3#swift3"
-        force_swift_request_proxy_log: true
-        s3_acl: true
-
-        # Allow reading of object between users
-        s3_acl_openbar: true
-
-        check_bucket_owner: true
-        location: "{{ openio_s3_region | d('us-east-1') }}"
-        max_bucket_listing: 1000
-        max_multi_delete_objects: 1000
-        max_upload_part_num: 10000
-        log_s3api_command: false
+        user_plop_user1: "USER1_PASS .admin"
 ...
