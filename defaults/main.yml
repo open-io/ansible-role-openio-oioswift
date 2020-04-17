@@ -150,7 +150,7 @@ openio_oioswift_filter_keystoneauth:
   operator_roles: admin,swiftoperator,_member_
 
 openio_oioswift_filter_copy:
-  use: "egg:swift#copy"
+  use: "egg:oioswift#copy"
   object_post_as_copy: false
 
 openio_oioswift_filter_container_quotas:
