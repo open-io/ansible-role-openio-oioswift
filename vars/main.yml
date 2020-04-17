@@ -67,8 +67,6 @@ pipeline_keystone:
   - keystoneauth
   - proxy-logging
   - copy
-  - container-quotas
-  - account-quotas
   - slo
   - dlo
   - versioned_writes
@@ -91,8 +89,6 @@ pipeline_keystone_iam:
   - keystoneauth
   - proxy-logging
   - copy
-  - container-quotas
-  - account-quotas
   - slo
   - dlo
   - versioned_writes
@@ -112,8 +108,6 @@ pipeline_tempauth:
   - tempauth
   - proxy-logging
   - copy
-  - container-quotas
-  - account-quotas
   - slo
   - dlo
   - versioned_writes
@@ -134,8 +128,6 @@ pipeline_tempauth_iam:
   - tempauth
   - proxy-logging
   - copy
-  - container-quotas
-  - account-quotas
   - slo
   - dlo
   - versioned_writes
