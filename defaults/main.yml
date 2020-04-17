@@ -181,6 +181,18 @@ openio_oioswift_filter_s3token:
   auth_uri: "http://{{ openio_bind_virtual_address_fqdn \
     | default(openio_bind_virtual_address) \
     | default(openio_oioswift_bind_address) }}:35357"
+  # --- keystone token caching ---
+  auth_url: "http://{{ openio_bind_virtual_address_fqdn \
+    | d(openio_bind_virtual_address) \
+    | d(openio_oioswift_bind_address) }}:35357"
+  auth_type: password
+  password: "{{ openio_keystone_swift_password | d('SWIFT_PASS') }}"
+  project_domain_id: default
+  project_name: service
+  secret_cache_duration: 60
+  user_domain_id: default
+  username: swift
+  # ---------------------------------------------------
 
 openio_oioswift_filter_keystoneauth:
   use: "egg:swift#keystoneauth"
