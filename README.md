@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioswift.svg?branch=19.10)](https://travis-ci.org/open-io/ansible-role-openio-oioswift)
+[![Build Status](https://travis-ci.org/open-io/ansible-role-openio-oioswift.svg?branch=20.04)](https://travis-ci.org/open-io/ansible-role-openio-oioswift)
 # Ansible role `oioswift`
 
 An Ansible role for the deployment of an OpenIO swift gateway.
