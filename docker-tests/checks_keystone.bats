@@ -13,18 +13,38 @@ run_only_test() {
 setup() {
   run_only_test "172.17.0.3"
   TOKEN=$(curl -i  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens | grep X-Subject-Token: | awk '{sub(/\r/, ""); print $2}')
-  STORAGE_URL=$(curl -s  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens |  python -mjson.tool | grep http://172.17.0.3:6007/v1/AUTH_ | sort -u | awk '{sub(/\r/, ""); gsub(/"/, "", $2);  print $2}')
+  STORAGE_URL=$(curl -s  -H "Content-Type: application/json"  -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"travis","domain":{"id":"default"},"password":"TRAVIS_PASS"}}},"scope":{"project":{"name":"CI","domain":{"id":"default"}}}}}' http://${SUT_IP}:5000/v3/auth/tokens |  python -mjson.tool | grep http://${SUT_IP}:6007/v1/AUTH_ | sort -u | awk '{sub(/\r/, ""); gsub(/"/, "", $2);  print $2}')
 }
 
-@test 'Stat account - keystoneauth' {
-  run curl -i ${STORAGE_URL} -X GET -H "X-Auth-Token: ${TOKEN}"
+@test 'token/url - keystoneauth' {
+  run echo ${TOKEN}
 
   echo "output: "$output
   echo "status: "$status
   [[ "${status}" -eq "0" ]]
+  [[ "${output}" =~ ^[A-Za-z0-9_-]*$ ]]
+
+  run echo ${STORAGE_URL}
+  echo "output: "$output
+  echo "status: "$status
+  [[ "${output}" =~ "http://${SUT_IP}:6007/v1/AUTH" ]]
+  [[ "${status}" -eq "0" ]]
+}
+
+
+@test 'Stat account - keystoneauth' {
+  run curl --verbose -i ${STORAGE_URL} -X GET -H "X-Auth-Token: ${TOKEN}"
+  set -x
+  LOG=$(docker exec -ti $SUT_ID bash -c 'journalctl | grep OIO,TRAVIS,')
+  LOG2=$(docker exec -ti $SUT_ID bash -c 'tail /var/log/keystone/*')
+  echo "output: "$output
+  echo "status: "$status
+  echo "LOGS: "$LOG
+  [[ "${status}" -eq "0" ]]
   [[ "${output}" =~ 'HTTP/1.1 204 No Content' ]]
   [[ "${output}" =~ 'X-Account-Object-Count: 0' ]]
   [[ "${output}" =~ 'X-Account-Container-Count: 0' ]]
+  set +x
 }
 
 @test 'Create container - keystoneauth' {

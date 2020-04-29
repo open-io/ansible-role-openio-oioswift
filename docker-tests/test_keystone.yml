@@ -26,6 +26,7 @@
       openio_keystone_namespace: "{{ NS }}"
       # change port for test
       openio_keystone_config_cache_memcache_servers: "{{ ansible_default_ipv4.address }}:6119"
+      openio_keystone_config_default_debug: true
       openio_keystone_nodes_group: all
       openio_keystone_database_engine: sqlite
       openio_keystone_users:
@@ -81,6 +82,7 @@
       openio_oioswift_sds_proxy_namespace: OPENIO  # docker image
       openio_oioswift_pipeline: "{{ pipeline_keystone }}"
       openio_oioswift_sds_proxy_url: "http://172.17.0.2:6006"  # docker image
+      openio_keystone_inventory_groupname: "{{ openio_oioswift_inventory_groupname }}"
       openio_oioswift_filter_authtoken:
         paste.filter_factory: keystonemiddleware.auth_token:filter_factory
         auth_type: password

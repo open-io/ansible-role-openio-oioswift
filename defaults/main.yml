@@ -35,7 +35,7 @@ openio_oioswift_workers:
   "{{ ((( ansible_processor_vcpus | int ) | ternary (ansible_processor_vcpus, 1) | int ) * 3 /  4) | int }}"
 openio_oioswift_max_clients: 1024
 
-openio_oioswift_log_level: INFO
+openio_oioswift_log_level: VERBOSE
 
 # SDS
 openio_oioswift_sds_proxy_namespace: "{{ openio_oioswift_namespace }}"
