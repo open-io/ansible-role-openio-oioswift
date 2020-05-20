@@ -255,7 +255,7 @@ openio_oioswift_filter_container_hierarchy:
     else '' }}"
   sentinel_name: "{{ openio_oioswift_namespace }}-master-1"
   redis_keys_format: v3
-  support_listing_versioning: false
+  mask_empty_prefixes: false
   mpu_fallback: "{{ openio_oioswift_filter_container_hierarchy_mpu_fallback }}"
 
 openio_oioswift_filter_regexcontainer:
