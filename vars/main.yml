@@ -14,7 +14,6 @@ pipeline_keystone_containerhierarchy:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - authtoken
   - swift3
@@ -36,7 +35,6 @@ pipeline_keystone_containerhierarchy_iam:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - iam
   - authtoken
@@ -59,7 +57,6 @@ pipeline_keystone:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - authtoken
   - swift3
@@ -80,7 +77,6 @@ pipeline_keystone_iam:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - iam
   - authtoken
@@ -102,7 +98,6 @@ pipeline_tempauth:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - swift3
   - tempauth
@@ -121,7 +116,6 @@ pipeline_tempauth_iam:
   - proxy-logging
   - cache
   - bulk
-  - tempurl
   - proxy-logging
   - iam
   - swift3
