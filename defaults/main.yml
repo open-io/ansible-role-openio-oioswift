@@ -79,9 +79,8 @@ openio_oioswift_filter_cache:
     else \
     openio_oioswift_bind_address ~ ':6019' }}"
   memcache_max_connections: 10
-  # 0 means don't expire automatically
   oio_cache: true
-  oio_cache_ttl: 0
+  oio_cache_ttl: 3600
 
 openio_oioswift_filter_bulk:
   use: "egg:swift#bulk"
